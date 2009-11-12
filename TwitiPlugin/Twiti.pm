@@ -103,7 +103,7 @@ $tableBottom = "
 }
 sub handleTweeting
 {
-	return "<noautolink> $name </noautolink><form action=\"" . 
+	return "<form action=\"" . 
       &TWiki::Func::getScriptUrl($session->{webName}, $session->{topicName}, 'digitweet') . 
       "\" /><input type=\"hidden\" name=\"nr\" value=\"$cnt\" /><input type=\"submit\" value=\"$lbl\" /></form>";
 }
