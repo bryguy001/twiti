@@ -1,4 +1,3 @@
-
 package TWiki::Plugins::TwitiPlugin::Twiti;
 
 # Always use strict to enforce variable scoping
@@ -97,16 +96,17 @@ $tableBottom = "
 		<img src=\"$imgPath/borderbottom.png\" width=718 height=11 border=0>
 		</td>
 	</tr>
-</table>";
+</table>
+<form action=\"/twiti/bin/digitweet\"><input class=\"twikiInputField\" type=\"text\" name=\"tweet\" size=\"22\" />&nbsp;<input type=\"submit\" class=\"twikiSubmit\" value=\"Tweet\" /></form>";
 
 	return ($tableTop . $tweets . $tableBottom);
 }
-sub handleTweeting
-{
-	return "<form action=\"" . 
-      &TWiki::Func::getScriptUrl($session->{webName}, $session->{topicName}, 'digitweet') . 
-      "\" /><input type=\"hidden\" name=\"nr\" value=\"$cnt\" /><input type=\"submit\" value=\"$lbl\" /></form>";
-}
+#sub handleTweeting
+#{
+#	return "<form action=\"" . 
+#      &TWiki::Func::getScriptUrl($session->{webName}, $session->{topicName}, 'digitweet') . 
+#      "\" /><input type=\"hidden\" name=\"nr\" value=\"$cnt\" /><input type=\"submit\" value=\"$lbl\" /></form>";
+#}
 # sub handleSignature {
   # my ( $cnt, $attr ) = @_;
   # my $session = $TWiki::Plugins::SESSION;
