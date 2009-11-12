@@ -101,7 +101,12 @@ $tableBottom = "
 
 	return ($tableTop . $tweets . $tableBottom);
 }
-
+sub handleTweeting
+{
+	return "<noautolink> $name </noautolink><form action=\"" . 
+      &TWiki::Func::getScriptUrl($session->{webName}, $session->{topicName}, 'digitweet') . 
+      "\" /><input type=\"hidden\" name=\"nr\" value=\"$cnt\" /><input type=\"submit\" value=\"$lbl\" /></form>";
+}
 # sub handleSignature {
   # my ( $cnt, $attr ) = @_;
   # my $session = $TWiki::Plugins::SESSION;

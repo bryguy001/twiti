@@ -53,7 +53,7 @@ sub preRenderingHandler
 	return unless ($0 =~ m/view|viewauth|render/o);
     $_[0] =~ s/%TWITI%/&handleTwiti/geo;
 	
-	#TWiki::Func::registerTagHandler( 'TWITI', \&handleTwiti );
+	TWiki::Func::registerTagHandler( 'TWEET', \&TWiki::Plugins::TwitiPlugin::Twiti::handleTweeting );
 
 }
 
