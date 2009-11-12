@@ -101,6 +101,19 @@ $tableBottom = "
 
 	return ($tableTop . $tweets . $tableBottom);
 }
+
+sub tweet
+{
+my $twitiUser = "TwitiTestUser";
+my $twitiPass = "twitiiscool";
+my $r;
+my $nt = Net::Twitter::Lite->new(
+         username => $twitiUser,
+        password => $twitiPass
+  );
+$r = $nt->update("SToafdsfadsfameone else! clicked my Tweet button!!!");
+}
+
 #sub handleTweeting
 #{
 #	return "<form action=\"" . 
