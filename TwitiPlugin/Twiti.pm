@@ -64,7 +64,7 @@ $tweets = "
 	<tr>
 		<td colspan=2>
 			<font class=largeBlue>
-			<b>Recent Tweets</b><br>
+			<form action=\"/twiti/bin/digitweet\"><input class=\"twikiInputField\" type=\"text\" name=\"tweet\" size=\"50\" />&nbsp;<input type=\"submit\" class=\"twikiSubmit\" value=\"Tweet\" /></form><br>
 			</font>
 		</td>
 	</tr>";
@@ -96,8 +96,7 @@ $tableBottom = "
 		<img src=\"$imgPath/borderbottom.png\" width=718 height=11 border=0>
 		</td>
 	</tr>
-</table>
-<form action=\"/twiti/bin/digitweet\"><input class=\"twikiInputField\" type=\"text\" name=\"tweet\" size=\"22\" />&nbsp;<input type=\"submit\" class=\"twikiSubmit\" value=\"Tweet\" /></form>";
+</table>";
 
 	return ($tableTop . $tweets . $tableBottom);
 }
