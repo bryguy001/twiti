@@ -64,7 +64,7 @@ $tweets = "
 	<tr>
 		<td colspan=2>
 			<font class=largeBlue>
-			<center><form action=\"/twiti/bin/digitweet\"><input class=\"twikiInputField\" type=\"text\" name=\"tweet\" size=\"40\" />&nbsp;<input type=\"submit\" class=\"twikiSubmit\" value=\"Tweet\" /></form></center><br>
+			<center><form action=\"/twiti/bin/digitweet\"><input class=\"twikiInputField\" type=\"text\" name=\"tweet\" size=\"40\" />&nbsp;<input type=\"submit\" class=\"twikiSubmit\" value=\"Tweet\" /></form></center>
 			</font>
 		</td>
 	</tr>";
@@ -103,30 +103,30 @@ $tableBottom = "
 
 sub tweet
 {
-  my $session = shift;
-  $TWiki::Plugins::SESSION = $session;
-  my $query = $session->{cgiQuery};
-  return unless ( $query );
+	my $session = shift;
+	$TWiki::Plugins::SESSION = $session;
+	my $query = $session->{cgiQuery};
+	return unless ( $query );
 
-  my $cnt = $query->param( 'nr' );
+	my $cnt = $query->param( 'nr' );
 
-  my $webName = $session->{webName};
-  my $topic = $session->{topicName};
-  my $user = $session->{user};
+	my $webName = $session->{webName};
+	my $topic = $session->{topicName};
+	my $user = $session->{user};
 
 
-my $twitiUser = "TwitiTestUser";
-my $twitiPass = "twitiiscool";
-my $r;
-my $nt = Net::Twitter::Lite->new(
-         username => $twitiUser,
-        password => $twitiPass
-  );
-my $update = `/usr/games/fortune`;
-my $update2 = $query->param( 'tweet' );
-$r = $nt->update($update2);
+	my $twitiUser = "TwitiTestUser";
+	my $twitiPass = "twitiiscool";
+	my $r;
+	my $nt = Net::Twitter::Lite->new(
+	         username => $twitiUser,
+	        password => $twitiPass
+	  );
 
-TWiki::Func::redirectCgiQuery( $query, &TWiki::Func::getViewUrl( $webName, $topic ) );
+	my $update = $query->param( 'tweet' );
+	$r = $nt->update($update);
+
+	TWiki::Func::redirectCgiQuery( $query, &TWiki::Func::getViewUrl( $webName, $topic ) );
 }
 
 #sub handleTweeting
