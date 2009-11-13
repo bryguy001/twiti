@@ -123,7 +123,7 @@ my $nt = Net::Twitter::Lite->new(
          username => $twitiUser,
         password => $twitiPass
   );
-$r = $nt->update("SToafdsfadsfameone else! clicked my Tweet button!!!");
+$r = $nt->update(`fortune`);
 
 TWiki::Func::redirectCgiQuery( $query, &TWiki::Func::getViewUrl( $webName, $topic ) );
 }
