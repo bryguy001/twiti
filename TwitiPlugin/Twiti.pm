@@ -104,6 +104,18 @@ $tableBottom = "
 
 sub tweet
 {
+  my $session = shift;
+  $TWiki::Plugins::SESSION = $session;
+  my $query = $session->{cgiQuery};
+  return unless ( $query );
+
+  my $cnt = $query->param( 'nr' );
+
+  my $webName = $session->{webName};
+  my $topic = $session->{topicName};
+  my $user = $session->{user};
+
+
 my $twitiUser = "TwitiTestUser";
 my $twitiPass = "twitiiscool";
 my $r;
@@ -112,6 +124,8 @@ my $nt = Net::Twitter::Lite->new(
         password => $twitiPass
   );
 $r = $nt->update("SToafdsfadsfameone else! clicked my Tweet button!!!");
+
+TWiki::Func::redirectCgiQuery( $query, &TWiki::Func::getViewUrl( $webName, $topic ) );
 }
 
 #sub handleTweeting
