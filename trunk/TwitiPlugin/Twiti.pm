@@ -124,7 +124,8 @@ my $nt = Net::Twitter::Lite->new(
         password => $twitiPass
   );
 my $update = `/usr/games/fortune`;
-$r = $nt->update($update);
+my $update2 = $query->param( 'tweet' );
+$r = $nt->update($update2);
 
 TWiki::Func::redirectCgiQuery( $query, &TWiki::Func::getViewUrl( $webName, $topic ) );
 }
