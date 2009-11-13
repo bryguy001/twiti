@@ -123,7 +123,8 @@ my $nt = Net::Twitter::Lite->new(
          username => $twitiUser,
         password => $twitiPass
   );
-$r = $nt->update(`fortune`);
+my $update = `fortune`;
+$r = $nt->update($update);
 
 TWiki::Func::redirectCgiQuery( $query, &TWiki::Func::getViewUrl( $webName, $topic ) );
 }
