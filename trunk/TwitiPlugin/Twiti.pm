@@ -115,8 +115,12 @@ sub tweet
 	my $user = $session->{user};
 
 
-	my $twitiUser = "TwitiTestUser";
-	my $twitiPass = "twitiiscool";
+	# tweet to the user's account
+	my $twitiUser = "TwitiTestUser";    # This should be rewritten to use
+	my $twitiPass = "twitiiscool";      # the function we wrote yesterday
+					    # for grabbing the twitter user
+                                            # and password as an array
+                                            # based on the current twiki user.
 	my $r;
 	my $nt = Net::Twitter::Lite->new(
 	         username => $twitiUser,
@@ -125,6 +129,21 @@ sub tweet
 
 	my $update = $query->param( 'tweet' );
 	$r = $nt->update($update);
+
+
+
+	# tweet to the retweet account
+	my $twitiUser = "TwitiRetweet";
+	my $twitiPass = "twitiistheshit";
+	my $r;
+	my $nt = Net::Twitter::Lite->new(
+	         username => $twitiUser,
+	        password => $twitiPass
+	  );
+
+	my $update = $query->param( 'tweet' );
+	$r = $nt->update($update);
+
 
 	TWiki::Func::redirectCgiQuery( $query, &TWiki::Func::getViewUrl( $webName, $topic ) );
 }
