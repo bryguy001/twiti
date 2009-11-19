@@ -16,7 +16,7 @@ sub twitiMain {
 	my $session = $TWiki::Plugins::SESSION;
 	
 	my $imgPath = TWiki::Func::getPubUrlPath() . "/" . TWiki::Func::getTwikiWebname() . "/TwitiPlugin";
-	my $moreURL = TWiki::Func::getScriptURL(1, 'TwitiPlugin', 'view', '');
+	my $moreURL = TWiki::Func::getScriptUrl('TWiki', 'TwitiPlugin', 'view');
 	
 	my ($nt, $twitiUser) = setupNetTwitter();
 	
