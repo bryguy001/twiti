@@ -114,14 +114,26 @@ sub twitiPage
 	my $statuses = $nt->friends_timeline({ my $since_id => my $high_water });
 	my $following = $nt->friends;
 	my $followers = $nt->followers;
-	
-	$tableTop = "<table cellpadding=5 cellspacing=0 border=0>";
 
-$tweets = "
+$tableTop = "
+<table cellpadding=5 cellspacing=1 border=0>
+	<tr>
+		<td>
+			<img src=\"$imgPath/twitiLogo200.png\">
+		</td>
+		<td valign=middle width=225>
+			$userInfo->{profile_image_url}
+		</td>
+		<td>
+			*$twitiUser* <br> $userInfo->{friends_count} following &nbsp; $userInfo->{followers_count} followers &nbsp; $userInfo->{statuses_count} tweets <br>
+		</td>
+	</tr>
+</table>
+<table cellpadding=5 cellspacing=0 border=0>
 	<tr>
 		<td colspan=2>
 			<font class=largeBlue>
-			<center><form action=\"/twiti/bin/digitweet\"><input class=\"twikiInputField\" type=\"text\" name=\"tweet\" size=\"40\" />&nbsp;<input type=\"submit\" class=\"twikiSubmit\" value=\"Tweet\" /></form></center>
+			<form action=\"/twiti/bin/digitweet\"><input class=\"twikiInputField\" type=\"text\" name=\"tweet\" size=\"100\" />&nbsp;<input type=\"submit\" class=\"twikiSubmit\" value=\"Tweet\" /></form>
 			</font>
 		</td>
 	</tr>";
