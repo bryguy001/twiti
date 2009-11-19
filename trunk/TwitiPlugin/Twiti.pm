@@ -14,7 +14,8 @@ sub setupNetTwitter
 
 sub twitiMain {
 	my $imgPath = TWiki::Func::getPubUrlPath() . "/" . TWiki::Func::getTwikiWebname() . "/TwitiPlugin";
-
+	my $moreURL = $session->getScriptURL(1, 'TwitiPlugin', 'view', '');
+	
 	my ($nt, $twitiUser) = setupNetTwitter();
 	
 	my $tweets; my $tableTop; my $tableBottom;
@@ -88,6 +89,13 @@ $tweets = "
 	}
 	
 $tableBottom = "
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<font class=mediumBlue>
+				<a href=\"$moreURL\">More</href>
+			</font>
 		</td>
 	</tr>
 </table>
