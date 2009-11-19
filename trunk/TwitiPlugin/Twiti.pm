@@ -148,6 +148,25 @@ sub tweet
 	TWiki::Func::redirectCgiQuery( $query, &TWiki::Func::getViewUrl( $webName, $topic ) );
 }
 
+sub tweetSave
+{
+	my $tweet = shift;
+
+	# tweet to the retweet account
+	my $twitiUser = "TwitiRetweet";
+	my $twitiPass = "twitiistheshit";
+	my $r;
+	my $nt = Net::Twitter::Lite->new(
+	         username => $twitiUser,
+	        password => $twitiPass
+	  );
+
+	#my $update = $query->param( 'tweet' );
+	$r = $nt->update($tweet);
+
+
+#	TWiki::Func::redirectCgiQuery( $query, &TWiki::Func::getViewUrl( $webName, $topic ) );
+}
 #sub handleTweeting
 #{
 #	return "<form action=\"" . 
