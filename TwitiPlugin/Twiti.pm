@@ -4,16 +4,28 @@ package TWiki::Plugins::TwitiPlugin::Twiti;
 use strict;
 use Net::Twitter::Lite;
 
+sub setupNetTwitter
+{
+	my $twitiUser = "TwitiTestUser";
+	my $twitiPass = "";
+	
+	return (Net::Twitter::Lite->new(
+			username => $twitiUser,
+			password => $twitiPass
+		   ));
+}
+
 sub twitiMain {
 	my $imgPath = TWiki::Func::getPubUrlPath() . "/" . TWiki::Func::getTwikiWebname() . "/TwitiPlugin";
 	
-	my $twitiUser = "TwitiTestUser";
-	my $twitiPass = "";
+	#my $twitiUser = "TwitiTestUser";
+	#my $twitiPass = "";
 
-	my $nt = Net::Twitter::Lite->new(
-		  username => $twitiUser,
-		  password => $twitiPass,
-	  );
+	my $nt = setupNetTwitter();
+	#Net::Twitter::Lite->new(
+	#	  username => $twitiUser,
+	#	  password => $twitiPass,
+	#  );
 	# $r = $nt->update($ARGV[0]);
 	
 	my $tweets; my $tableTop; my $tableBottom;
@@ -103,7 +115,51 @@ $tableBottom = "
 
 sub twitiPage
 {
-	return ("BLEH!");
+	my $imgPath = TWiki::Func::getPubUrlPath() . "/" . TWiki::Func::getTwikiWebname() . "/TwitiPlugin";
+
+	my $nt = setupNetTwitter();
+	
+	my $tweets; my $tableTop; my $tableBottom;
+	
+	my $userInfo = $nt->show_user($twitiUser);
+	my $statuses = $nt->friends_timeline({ my $since_id => my $high_water });
+	my $following = $nt->friends;
+	my $followers = $nt->followers;
+	
+	$tableTop = "<table cellpadding=5 cellspacing=0 border=0>";
+
+$tweets = "
+	<tr>
+		<td colspan=2>
+			<font class=largeBlue>
+			<center><form action=\"/twiti/bin/digitweet\"><input class=\"twikiInputField\" type=\"text\" name=\"tweet\" size=\"40\" />&nbsp;<input type=\"submit\" class=\"twikiSubmit\" value=\"Tweet\" /></form></center>
+			</font>
+		</td>
+	</tr>";
+	
+	for my $status ( @$statuses ) 
+	{
+	  $tweets .= "\n<tr>
+						<td align=center valign=middle width=50>
+						$status->{user}{profile_image_url}
+						</td>
+						<td valign=top>
+							<font class=tweet>
+							<b>$status->{user}{screen_name}</b> &nbsp; $status->{text} <br> 
+							</font>
+							<font class=tweetInfo>
+							$status->{created_at} from $status->{source}
+							</font>
+						</td>
+					</tr>";
+	}
+	
+$tableBottom = "
+		</td>
+	</tr>
+</table>";
+
+	return ($tableTop . $tweets . $tableBottom);
 }
 
 sub tweet
