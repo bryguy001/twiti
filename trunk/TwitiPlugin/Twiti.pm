@@ -218,7 +218,7 @@ sub tweet
 	$r = $nt->update($update);
 
 
-	TWiki::Func::redirect( TWiki::Func::getScriptUrl( 1, 'view', $webName, $topic ) );
+	$session->redirect( TWiki::Func::getScriptUrl( 1, 'view', $webName, $topic ) );
 }
 
 sub tweetSave
