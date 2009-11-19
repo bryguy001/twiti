@@ -9,10 +9,7 @@ sub setupNetTwitter
 	my $twitiUser = "TwitiTestUser";
 	my $twitiPass = "";
 	
-	return (Net::Twitter::Lite->new(
-			username => $twitiUser,
-			password => $twitiPass
-		   ));
+	return (Net::Twitter::Lite->new(username => $twitiUser, password => $twitiPass,));
 }
 
 sub twitiMain {
