@@ -7,23 +7,15 @@ use Net::Twitter::Lite;
 sub setupNetTwitter
 {
 	my $twitiUser = "TwitiTestUser";
-	my $twitiPass = "";
+	my $twitiPass = "twitiiscool";
 	
 	return (Net::Twitter::Lite->new(username => $twitiUser, password => $twitiPass,));
 }
 
 sub twitiMain {
 	my $imgPath = TWiki::Func::getPubUrlPath() . "/" . TWiki::Func::getTwikiWebname() . "/TwitiPlugin";
-	
-	#my $twitiUser = "TwitiTestUser";
-	#my $twitiPass = "";
 
 	my $nt = setupNetTwitter();
-	#Net::Twitter::Lite->new(
-	#	  username => $twitiUser,
-	#	  password => $twitiPass,
-	#  );
-	# $r = $nt->update($ARGV[0]);
 	
 	my $tweets; my $tableTop; my $tableBottom;
 	
