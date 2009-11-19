@@ -9,13 +9,13 @@ sub setupNetTwitter
 	my $twitiUser = "TwitiTestUser";
 	my $twitiPass = "twitiiscool";
 	
-	return (Net::Twitter::Lite->new(username => $twitiUser, password => $twitiPass,));
+	return (Net::Twitter::Lite->new(username => $twitiUser, password => $twitiPass,), $twitiUser);
 }
 
 sub twitiMain {
 	my $imgPath = TWiki::Func::getPubUrlPath() . "/" . TWiki::Func::getTwikiWebname() . "/TwitiPlugin";
 
-	my $nt = setupNetTwitter();
+	my ($nt, $twitiUser) = setupNetTwitter();
 	
 	my $tweets; my $tableTop; my $tableBottom;
 	
