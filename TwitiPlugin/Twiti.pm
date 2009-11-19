@@ -118,10 +118,10 @@ sub twitiPage
 $tableTop = "
 <table cellpadding=5 cellspacing=1 border=0>
 	<tr>
-		<td>
+		<td valign=middle width=225>
 			<img src=\"$imgPath/twitiLogo200.png\">
 		</td>
-		<td valign=middle width=225>
+		<td valign=middle width=50>
 			$userInfo->{profile_image_url}
 		</td>
 		<td>
@@ -129,6 +129,7 @@ $tableTop = "
 		</td>
 	</tr>
 </table>
+---
 <table cellpadding=5 cellspacing=0 border=0>
 	<tr>
 		<td colspan=2>
