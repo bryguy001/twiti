@@ -59,8 +59,27 @@ sub preRenderingHandler
 
 sub handleTwiti 
 {
-  require TWiki::Plugins::TwitiPlugin::Twiti;
-  return TWiki::Plugins::TwitiPlugin::Twiti::handleTwiti();
+	my $session = shift;
+	$TWiki::Plugins::SESSION = $session;
+	my $query = $session->{cgiQuery};
+	return unless ( $query );
+
+	my $cnt = $query->param( 'nr' );
+
+	my $webName = $session->{webName};
+	my $topic = $session->{topicName};
+	my $user = $session->{user};
+	
+	if($topic eq 'TwitiPlugin')
+	{  
+		require TWiki::Plugins::TwitiPlugin::Twiti;
+		return TWiki::Plugins::TwitiPlugin::Twiti::twitiPage();  
+	}
+	else
+	{
+		require TWiki::Plugins::TwitiPlugin::Twiti;
+		return TWiki::Plugins::TwitiPlugin::Twiti::twitiMain();
+	}
 }
 
 1;

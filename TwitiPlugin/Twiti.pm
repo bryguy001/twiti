@@ -4,7 +4,7 @@ package TWiki::Plugins::TwitiPlugin::Twiti;
 use strict;
 use Net::Twitter::Lite;
 
-sub handleTwiti {
+sub twitiMain {
 	my $imgPath = TWiki::Func::getPubUrlPath() . "/" . TWiki::Func::getTwikiWebname() . "/TwitiPlugin";
 	
 	my $twitiUser = "TwitiTestUser";
@@ -99,6 +99,11 @@ $tableBottom = "
 </table>";
 
 	return ($tableTop . $tweets . $tableBottom);
+}
+
+sub twitiPage
+{
+	return ("BLEH!");
 }
 
 sub tweet
