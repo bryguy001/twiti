@@ -11,7 +11,13 @@ sub setupNetTwitter
 	
 	return (Net::Twitter::Lite->new(username => $twitiUser, password => $twitiPass,), $twitiUser);
 }
-
+sub setupNetTwitterRT
+{
+	my $twitiUser = "TwitiRetweet";
+	my $twitiPass = "twitiistheshit";
+	
+	return (Net::Twitter::Lite->new(username => $twitiUser, password => $twitiPass,), $twitiUser);
+}
 sub twitiMain {
 	my $session = $TWiki::Plugins::SESSION;
 	
@@ -180,44 +186,18 @@ sub tweet
 	$TWiki::Plugins::SESSION = $session;
 	my $query = $session->{cgiQuery};
 	return unless ( $query );
-
-	my $cnt = $query->param( 'nr' );
-
 	my $webName = $session->{webName};
 	my $topic = $session->{topicName};
 	my $user = $session->{user};
-
-
-	# tweet to the user's account
-	my $twitiUser = "TwitiTestUser";    # This should be rewritten to use
-	my $twitiPass = "twitiiscool";      # the function we wrote yesterday
-					    # for grabbing the twitter user
-                                            # and password as an array
-                                            # based on the current twiki user.
 	my $r;
-	my $nt = Net::Twitter::Lite->new(
-	         username => $twitiUser,
-	        password => $twitiPass
-	  );
-
+	
+	my ($nt, $twitiUser) = setupNetTwitter();
+	my ($ntrt, $twitiRetweet) = setupNetTwitterRT();
 	my $update = $query->param( 'tweet' );
+	
 	$r = $nt->update($update);
-
-
-
-	# tweet to the retweet account
-	my $twitiUser = "TwitiRetweet";
-	my $twitiPass = "twitiistheshit";
-	my $r;
-	my $nt = Net::Twitter::Lite->new(
-	         username => $twitiUser,
-	        password => $twitiPass
-	  );
-
-	my $update = $query->param( 'tweet' );
-	$r = $nt->update($update);
-
-
+	$r = $ntrt->update($update);
+	
 	$session->redirect( TWiki::Func::getViewUrl( $webName, $topic ) );
 }
 
@@ -225,132 +205,14 @@ sub tweetSave
 {
 	my $tweet = shift;
 
-	# tweet to the retweet account
-	my $twitiUser = "TwitiRetweet";
-	my $twitiPass = "twitiistheshit";
-	my $r;
-	my $nt = Net::Twitter::Lite->new(
-	         username => $twitiUser,
-	        password => $twitiPass
-	  );
-
-	#my $update = $query->param( 'tweet' );
+	my ($nt, $twitiUser) = setupNetTwitter();
+	my ($ntrt, $twitiRetweet) = setupNetTwitterRT();
+	
+	
 	$r = $nt->update($tweet);
+	$r = $ntrt->update($tweet);
 
 
-#	TWiki::Func::redirectCgiQuery( $query, &TWiki::Func::getViewUrl( $webName, $topic ) );
 }
-#sub handleTweeting
-#{
-#	return "<form action=\"" . 
-#      &TWiki::Func::getScriptUrl($session->{webName}, $session->{topicName}, 'digitweet') . 
-#      "\" /><input type=\"hidden\" name=\"nr\" value=\"$cnt\" /><input type=\"submit\" value=\"$lbl\" /></form>";
-#}
-# sub handleSignature {
-  # my ( $cnt, $attr ) = @_;
-  # my $session = $TWiki::Plugins::SESSION;
-
-  # $attr = new TWiki::Attrs($attr);
-  # my $lbl = TWiki::Func::getPreferencesValue( "\U$TWiki::Plugins::SignaturePlugin::pluginName\E_SIGNATURELABEL" ) || 'Sign';
-
-  # my $name = '';
-  # $name = '_('.$attr->{name}.')_ &nbsp;' if $attr->{name};
-
-  # return "<noautolink> $name </noautolink><form action=\"" . &TWiki::Func::getScriptUrl($session->{webName}, $session->{topicName}, 'digisign') . "\" /><input type=\"hidden\" name=\"nr\" value=\"$cnt\" /><input type=\"submit\" value=\"$lbl\" /></form>";
-
-# }
-
-# sub sign {
-  # my $session = shift;
-  # $TWiki::Plugins::SESSION = $session;
-  # my $query = $session->{cgiQuery};
-  # return unless ( $query );
-
-  # my $cnt = $query->param( 'nr' );
-
-  # my $webName = $session->{webName};
-  # my $topic = $session->{topicName};
-  # my $user = $session->{user};
-
-  # return unless ( &doEnableEdit ($webName, $topic, $user, $query, 'editTableRow') );
-
-  # my ( $meta, $text ) = &TWiki::Func::readTopic( $webName, $topic );
-  # $text =~ s/%SIGNATURE(?:{(.*)})?%/&replaceSignature($cnt--, $user, $1)/geo;
-
-  # my $error = &TWiki::Func::saveTopicText( $webName, $topic, $text, 1 );
-  # TWiki::Func::setTopicEditLock( $webName, $topic, 0 );  # unlock Topic
-  # if( $error ) {
-    # TWiki::Func::redirectCgiQuery( $query, $error );
-    # return 0;
-  # } else {
-    # and finally display topic
-    # TWiki::Func::redirectCgiQuery( $query, &TWiki::Func::getViewUrl( $webName, $topic ) );
-  # }
-  
-# }
-
-# sub replaceSignature {
-  # my ( $dont, $user, $attr ) = @_;
-
-  # return ( ($attr)?"%SIGNATURE{$attr}%":'%SIGNATURE%' ) if $dont;
-
-  # $attr = new TWiki::Attrs($attr);
-
-  # my $wikiUser = TWiki::Func::getWikiUserName($user);
-  # my $session = $TWiki::Plugins::SESSION;
-  # unless ( ! $attr->{name} || $TWiki::Plugins::SESSION->{users}->isInList($user, $attr->{name}) ) {
-    # TWiki::Func::setTopicEditLock( $session->{webName}, $session->{topicName}, 0 );  # unlock Topic
-    # throw TWiki::OopsException( 'generic',
-				# web => $session->{webName},
-				# topic => $session->{topicName},
-				# params => [ 'Attention', $wikiUser.' is not permitted to sign here.',  'Please go back in your browser and sign at the correct spot.', ' ' ] );
-    # exit;
-  # }
-
-  # my $fmt = $attr->{format} || TWiki::Func::getPreferencesValue( "\U$TWiki::Plugins::SignaturePlugin::pluginName\E_SIGNATUREFORMAT" ) || '$wikiusername - $date';
-
-  # my @months = qw(Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec);
-  # my ($d, $m, $y) = (localtime)[3, 4, 5];
-  # $y += 1900;
-  # my $ourDate = sprintf('%02d %s %d', $d, $months[$m], $y);
-  # my $login = TWiki::Func::wikiToUserName($wikiUser);
-  # my $wikiName = TWiki::Func::userToWikiName($login, 1);
-
-  # $fmt =~ s/\$quot/\"/go;
-  # $fmt =~ s/\$wikiusername/$wikiUser/geo;
-  # $fmt =~ s/\$wikiname/$wikiName/geo;
-  # $fmt =~ s/\$username/$login/geo;
-  # $fmt =~ s/\$date/$ourDate/geo;
-
-  # return $fmt;
-
-# }
-
-# sub doEnableEdit
-# {
-    # my ( $theWeb, $theTopic, $user, $query ) = @_;
-
-    # if( ! &TWiki::Func::checkAccessPermission( "change", $user, "", $theTopic, $theWeb ) ) {
-        # user does not have permission to change the topic
-        # throw TWiki::OopsException( 'accessdenied',
-                                    # def => 'topic_access',
-                                    # web => $_[2],
-                                    # topic => $_[1],
-				    # params => [ 'Edit topic', 'You are not permitted to edit this topic' ] );
-	# return 0;
-    # }
-
-    # SMELL: Update for TWiki 4.1 =checkTopicEditLock=
-    # my( $oopsUrl, $lockUser ) = &TWiki::Func::checkTopicEditLock( $theWeb, $theTopic, 'edit' );
-    # if( $lockUser && ! ( $lockUser eq TWiki::Func::getCanonicalUserID($user) ) ) {
-      # warn user that other person is editing this topic
-      # &TWiki::Func::redirectCgiQuery( $query, $oopsUrl );
-      # return 0;
-    # }
-    # TWiki::Func::setTopicEditLock( $theWeb, $theTopic, 1 );
-
-    # return 1;
-
-# }
 
 1;
