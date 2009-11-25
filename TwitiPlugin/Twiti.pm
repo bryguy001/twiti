@@ -57,16 +57,15 @@ sub twitiMain {
 		$followers = $nt->followers;
 	};
 	
-	my $error = $@;
-	if( $error )
+	if( my $error = $@ )
 	{
 		if( $error->isa('Net::Twitter::Lite::Error') )
-		{  $error = checkError( $error->code() );  }
-		else{ $error = "Error?! : $@";  }
-	} else { $error = 0; }
-	
-	if( $error == 0 ) {}
-	else { return "$error <br> Twitter Says: $@->error"; }
+		{  
+			$error = checkError( $error->code() );
+			return "$error <br> Twitter Says: $@->error";
+		}
+		else{  return "Error?! : $@";  }
+	}
 
 	my ($tweets, $tableTop, $tableBottom);
 $tableTop = "
