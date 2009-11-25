@@ -2,6 +2,7 @@ package TWiki::Plugins::TwitiPlugin::Twiti;
 
 # Always use strict to enforce variable scoping
 use strict;
+use Error;
 use Net::Twitter::Lite;
 
 sub checkError
@@ -256,8 +257,11 @@ sub tweet
 		{  
 			my $error = checkError( $@ );
 			warn $error;
-			TWiki::Func::redirectCgiQuery($query, $error);
-		} else{  warn "Some Other Error?! : $@";  TWiki::Func::redirectCgiQuery($query, $@);  }
+			throw TWiki::OopsException( 'accessdenied', def=>'topic_access',web=>$webName,topic=>$topic,params=> [ 'Tweet problem...', $error ] );
+		} else{  
+			warn "Some Other Error?! : $@";  
+			throw TWiki::OopsException( 'accessdenied', def=>'topic_access',web=>$webName,topic=>$topic,params=> [ 'Tweet problem...', $@ ] );
+		}
 	}
 	   
 	$session->redirect( TWiki::Func::getViewUrl( $webName, $topic ) );
@@ -268,7 +272,8 @@ sub tweetSave
 	my $tweet = shift;
 	
 	my $session = $TWiki::Plugins::SESSION;
-	my $query = $session->{cgiQuery};
+	my $webName = $session->{webName};
+	my $topic = $session->{topicName};
 
 	my ($nt, $twitiUser) = setupNetTwitter();
 	my ($ntrt, $twitiRetweet) = setupNetTwitterRT();
@@ -285,8 +290,11 @@ sub tweetSave
 		{  
 			my $error = checkError( $@ );
 			warn $error;
-			TWiki::Func::redirectCgiQuery($query, $error);
-		} else{  warn "Some Other Error?! : $@";  TWiki::Func::redirectCgiQuery($query, $@);  }
+			throw TWiki::OopsException( 'accessdenied', def=>'topic_access',web=>$webName,topic=>$topic,params=> [ 'Tweet problem...', $error ] );
+		} else{  
+			warn "Some Other Error?! : $@";  
+			throw TWiki::OopsException( 'accessdenied', def=>'topic_access',web=>$webName,topic=>$topic,params=> [ 'Tweet problem...', $@ ] );
+		}
 	}
 }
 
