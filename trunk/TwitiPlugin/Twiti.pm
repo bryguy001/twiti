@@ -6,20 +6,21 @@ use Net::Twitter::Lite;
 
 sub checkError
 {
-	my $errorCode = shift;
+	my $err = shift;
+	my $errorCode = $err->code();
 	my $error;
 	
 	if( $errorCode == 200 ) { $error = 0; }
-	elsif( $errorCode == 400 ) { $error = "Twitter Error 400: Bad Request"; }
-	elsif( $errorCode == 401 ) { $error = "Twitter Error 401: Not Authorized...Invalid User/Pass"; return $error; }
-	elsif( $errorCode == 403 ) { $error = "Twitter Error 403: Forbidden"; }
-	elsif( $errorCode == 406 ) { $error = "Twitter Error 406: Not Acceptable (Bad Search?)"; }
-	elsif( $errorCode == 500 ) { $error = "Twitter Error 500: Internal Server Error (Something Broked!)"; }
-	elsif( $errorCode == 502 ) { $error = "Twitter Error 502: Bad Gateway...Twitter is down!"; }
-	elsif( $errorCode == 503 ) { $error = "Twitter Error 503: Service Unavailable...Twitter is up, but overloaded or somethin...come back later!"; }
+	elsif( $errorCode == 400 ) { $error = "Twiti Error 400: Bad Request"; }
+	elsif( $errorCode == 401 ) { $error = "Twiti Error 401: Not Authorized"; return $error; }
+	elsif( $errorCode == 403 ) { $error = "Twiti Error 403: Forbidden"; }
+	elsif( $errorCode == 406 ) { $error = "Twiti Error 406: Not Acceptable (Bad Search?)"; }
+	elsif( $errorCode == 500 ) { $error = "Twiti Error 500: Internal Server Error (Something Broked!)"; }
+	elsif( $errorCode == 502 ) { $error = "Twiti Error 502: Bad Gateway"; }
+	elsif( $errorCode == 503 ) { $error = "Twiti Error 503: Service Unavailable"; }
 	else { $error = "Something else happened!??! : Error Code -> $errorCode"; }
 	
-	return $error;
+	return "<font color=red size=4><b> $error <br> Twitter Says: $err <br><br> </b></font>";
 }
 
 sub setupNetTwitter
@@ -57,14 +58,14 @@ sub twitiMain {
 		$followers = $nt->followers;
 	};
 	
-	if( my $error = $@ )
+	if( $@ )
 	{
-		if( $error->isa('Net::Twitter::Lite::Error') )
+		if( $@->isa('Net::Twitter::Lite::Error') )
 		{  
-			$error = checkError( $error->code() );
-			return "$error <br> Twitter Says: $@->error";
+			my $error = checkError( $@ );
+			return $error;
 		}
-		else{  return "Error?! : $@";  }
+		else{  return "Some Other Error?! : $@";  }
 	}
 
 	my ($tweets, $tableTop, $tableBottom);
