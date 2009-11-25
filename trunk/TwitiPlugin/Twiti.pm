@@ -5,10 +5,17 @@ use strict;
 use Error;
 use Net::Twitter::Lite;
 
+# checkError
+# Parses an error code from a Twitter error
+# Takes 2 arguments:
+#   1st is the error structure: usually $@ is sent
+#   2nd is a 1 or 0:
+#      1 will add html formatting to the error message (Used on the main page and the more page)
+#      0 will not add the html formatting (Used on the error page for an error from tweeting)
 sub checkError
 {
-	my $err = shift;
-	my $html= shift;
+	my $err  = shift;
+	my $html = shift;
 	my $errorCode = $err->code();
 	my $error;
 	
@@ -28,10 +35,16 @@ sub checkError
 	{  return "$error -- Twitter Says: $err";  }
 }
 
+# setupNetTwitter & setupNetTwitterRT
+# Returns 2 variables:
+#   1st is the Net::Twitter structure
+#   2nd is the username used
+# 
+# setupNetTwitterRT does the same thing, but for a retweet account
 sub setupNetTwitter
 {
 	my $twitiUser = "TwitiTestUser";
-	my $twitiPass = "twitiiscoolOMGTHISISNOTRIGHT!";
+	my $twitiPass = "twitiiscool";
 	
 	my $nt = Net::Twitter::Lite->new(username => $twitiUser, password => $twitiPass,);
 	
@@ -48,6 +61,8 @@ sub setupNetTwitterRT
 	return ($nt, $twitiUser);
 }
 
+# twitiMain
+# Returns the HTML code used for the main %TWITI% tag
 sub twitiMain {
 	my $session = $TWiki::Plugins::SESSION;
 	my $imgPath = TWiki::Func::getPubUrlPath() . "/" . TWiki::Func::getTwikiWebname() . "/TwitiPlugin";
@@ -159,6 +174,8 @@ $tableBottom = "
 	return ($tableTop . $tweets . $tableBottom);
 }
 
+# twitiPage
+# Returns the HTML code for the %TWITI% tag when used on the TwitiPlugin page (being used as the More page)
 sub twitiPage
 {
 	my $imgPath = TWiki::Func::getPubUrlPath() . "/" . TWiki::Func::getTwikiWebname() . "/TwitiPlugin";
@@ -233,6 +250,9 @@ $tableBottom = "
 	return ($tableTop . $tweets . $tableBottom);
 }
 
+# tweet
+# Called when a user presses the Tweet button on the main page or More page
+# Sends the Twitter update...will divert to an OopsException page if an error occurs in the Twitter update
 sub tweet
 {
 	my $session = shift;
@@ -271,6 +291,10 @@ sub tweet
 	$session->redirect( TWiki::Func::getViewUrl( $webName, $topic ) );
 }
 
+# tweetSave
+# Called when a user presses the Tweet & Save button on an Edit page
+# Sends the Twitter update...will divert to an OopsException page if an error occurs in the Twitter update
+#   !!! If diverted, will not perform save...have no idea how you could still do save and divert to show error
 sub tweetSave
 {
 	my $tweet = shift;
