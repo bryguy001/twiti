@@ -32,7 +32,7 @@ sub setupNetTwitter
 	my $error = $@;
 	if( $@ )
 	{
-		if( blessed $error && $error->isa(Net::Twitter::Lite::Error) )
+		if( blessed $error && $error->isa('Net::Twitter::Lite::Error') )
 		{  $error = checkError( $error->code() );  }
 	}
 	
@@ -49,7 +49,7 @@ sub setupNetTwitterRT
 	my $error = $@;
 	if( $@ )
 	{
-		if( blessed $error && $error->isa(Net::Twitter::Lite::Error) )
+		if( blessed $error && $error->isa('Net::Twitter::Lite::Error') )
 		{  $error = checkError( $error->code() );  }
 	}
 	
