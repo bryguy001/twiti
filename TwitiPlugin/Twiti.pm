@@ -27,20 +27,9 @@ sub setupNetTwitter
 	my $twitiUser = "TwitiTestUser";
 	my $twitiPass = "twitiiscoolOMGTHISISNOTRIGHT!";
 	
-	my $nt;
-	eval{ $nt = Net::Twitter::Lite->new(username => $twitiUser, password => $twitiPass,); };
+	my $nt = Net::Twitter::Lite->new(username => $twitiUser, password => $twitiPass,);
 	
-	my $error = $@;
-	if( $error )
-	{
-		if( blessed $error && $error->isa('Net::Twitter::Lite::Error') )
-		{  $error = checkError( $error->code() );  }
-		else{  $error = "Error?! : $@";  }
-	}
-	else
-	{  $error = 0;  }
-	
-	return ($nt, $twitiUser, $error);
+	return ($nt, $twitiUser);
 }
 
 sub setupNetTwitterRT
@@ -48,51 +37,38 @@ sub setupNetTwitterRT
 	my $twitiUser = "TwitiRetweet";
 	my $twitiPass = "twitiistheshit";
 	
-	my $nt;
-	eval{ $nt = Net::Twitter::Lite->new(username => $twitiUser, password => $twitiPass,); };
+	my $nt = Net::Twitter::Lite->new(username => $twitiUser, password => $twitiPass,);
 	
-	my $error = $@;
-	if( $error )
-	{
-		if( blessed $error && $error->isa('Net::Twitter::Lite::Error') )
-		{  $error = checkError( $error->code() );  }
-		else{  $error = "Error?! : $@";  }
-	}
-	else
-	{  $error = 0;  }
-	
-	return ($nt, $twitiUser, $error);
+	return ($nt, $twitiUser);
 }
 
 sub twitiMain {
 	my $session = $TWiki::Plugins::SESSION;
-	
 	my $imgPath = TWiki::Func::getPubUrlPath() . "/" . TWiki::Func::getTwikiWebname() . "/TwitiPlugin";
 	my $moreURL = TWiki::Func::getScriptUrl('TWiki', 'TwitiPlugin', 'view');
 	
-	my ($nt, $twitiUser, $error) = setupNetTwitter();
-	if( $error != 0 ) {  return $error;  }
-	
-	my $tweets; my $tableTop; my $tableBottom;
-	
-	my $userInfo; my $statuses; my $following; my $followers;
+	my ($nt, $twitiUser) = setupNetTwitter();
+
+	my ($userInfo, $statuses, $following, $followers);
 	eval{ 
 		$userInfo = $nt->show_user($twitiUser);
 		$statuses = $nt->friends_timeline({ my $since_id => my $high_water, count=>5 });
 		$following = $nt->friends;
 		$followers = $nt->followers;
 	};
+	
 	my $error = $@;
 	if( $error )
 	{
-		if( blessed $error && $error->isa('Net::Twitter::Lite::Error') )
+		if( $error->isa('Net::Twitter::Lite::Error') )
 		{  $error = checkError( $error->code() );  }
 		else{ $error = "Error?! : $@";  }
-	}
-	else { $error = "ARGH!"; }
-	if( $error == 0 ) {  return " SHOW USER: $error";  }
-	else { return "Show User: $error "; }
+	} else { $error = 0; }
 	
+	if( $error == 0 ) {}
+	else { return "$error <br> Twitter Says: $@->error"; }
+
+	my ($tweets, $tableTop, $tableBottom);
 $tableTop = "
 <link rel=\"stylesheet\" href=\"$imgPath/twiti.css\" type=\"text/css\">
 <table width=718 cellpadding=0 cellspacing=0 border=0>
