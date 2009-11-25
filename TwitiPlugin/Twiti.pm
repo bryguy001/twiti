@@ -47,7 +47,7 @@ sub setupNetTwitterRT
 	my $twitiUser = "TwitiRetweet";
 	my $twitiPass = "twitiistheshit";
 	
-	my $nt = eval{ Net::Twitter::Lite->new(username => $twitiUser, password => $twitiPass,); };
+	eval{ my $nt = Net::Twitter::Lite->new(username => $twitiUser, password => $twitiPass,); };
 	
 	my $error = $@;
 	if( $error )
@@ -73,7 +73,16 @@ sub twitiMain {
 	
 	my $tweets; my $tableTop; my $tableBottom;
 	
-	my $userInfo = $nt->show_user($twitiUser);
+	eval{ my $userInfo = $nt->show_user($twitiUser); };
+	
+	my $error;
+	if( $@ )
+	{
+		if( blessed $@ && $@->isa('Net::Twitter::Lite::Error') )
+		{  $error = checkError( $@->code() );  }
+	}
+	if( $error != 0 ) {  return " SHOW USER: $error";  }
+	
 	my $statuses = $nt->friends_timeline({ my $since_id => my $high_water, count=>5 });
 	my $following = $nt->friends;
 	my $followers = $nt->followers;
