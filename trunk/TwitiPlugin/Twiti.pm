@@ -85,6 +85,7 @@ sub twitiMain {
 		{  $error = checkError( $error->code() );  }
 		else{ $error = "Error?! : $@";  }
 	}
+	else { $error = "ARGH!"; }
 	if( $error != 0 ) {  return " SHOW USER: $error";  }
 	else { return "Show User: $error "; }
 	
