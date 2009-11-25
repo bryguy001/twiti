@@ -78,11 +78,11 @@ sub twitiMain {
 	my $userInfo;
 	eval{ $userInfo = $nt->show_user($twitiUser); };
 	
-	my $error;
-	if( $@ )
+	my $error = $@;
+	if( $error )
 	{
-		if( blessed $@ && $@->isa('Net::Twitter::Lite::Error') )
-		{  $error = checkError( $@->code() );  }
+		if( blessed $error && $error->isa('Net::Twitter::Lite::Error') )
+		{  $error = checkError( $error->code() );  }
 		else{ $error = "Error?! : $@";  }
 	}
 	if( $error != 0 ) {  return " SHOW USER: $error";  }
