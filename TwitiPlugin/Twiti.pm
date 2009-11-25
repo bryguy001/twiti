@@ -249,7 +249,7 @@ sub tweet
 		$r = $ntrt->update($tweet);
 	};
 	
-	# Error handling block...
+	# Error handling block 2...This is only for tweet & tweetSave!!!!!
 	if( $@ )
 	{
 		if( $@->isa('Net::Twitter::Lite::Error') )
@@ -257,7 +257,7 @@ sub tweet
 			my $error = checkError( $@ );
 			warn $error;
 			TWiki::Func::redirectCgiQuery($query, $error);
-		} else{  warn "Some Other Error?! : $@";  TWiki::Func::redirectCgiQuery($query, $error);  }
+		} else{  warn "Some Other Error?! : $@";  TWiki::Func::redirectCgiQuery($query, $@);  }
 	}
 	   
 	$session->redirect( TWiki::Func::getViewUrl( $webName, $topic ) );
@@ -275,7 +275,7 @@ sub tweetSave
 		$r = $ntrt->update($tweet);
 	};
 	
-	# Error handling block...
+	# Error handling block 2...This is only for tweet & tweetSave!!!!!
 	if( $@ )
 	{
 		if( $@->isa('Net::Twitter::Lite::Error') )
@@ -283,7 +283,7 @@ sub tweetSave
 			my $error = checkError( $@ );
 			warn $error;
 			TWiki::Func::redirectCgiQuery($query, $error);
-		} else{  warn "Some Other Error?! : $@";  TWiki::Func::redirectCgiQuery($query, $error);  }
+		} else{  warn "Some Other Error?! : $@";  TWiki::Func::redirectCgiQuery($query, $@);  }
 	}
 }
 
