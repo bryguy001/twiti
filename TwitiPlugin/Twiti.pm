@@ -58,14 +58,14 @@ sub twitiMain {
 		$followers = $nt->followers;
 	};
 	
+	# Error handling block...put after any eval that is done on a Twitter function!
 	if( $@ )
 	{
 		if( $@->isa('Net::Twitter::Lite::Error') )
 		{  
 			my $error = checkError( $@ );
 			return $error;
-		}
-		else{  return "Some Other Error?! : $@";  }
+		} else{  return "Some Other Error?! : $@";  }
 	}
 
 	my ($tweets, $tableTop, $tableBottom);
@@ -158,16 +158,27 @@ sub twitiPage
 {
 	my $imgPath = TWiki::Func::getPubUrlPath() . "/" . TWiki::Func::getTwikiWebname() . "/TwitiPlugin";
 
-	my ($nt, $twitiUser, $error) = setupNetTwitter();
-	if( $error != 0 ) {  return $error;  }
+	my ($nt, $twitiUser) = setupNetTwitter();
 	
-	my $tweets; my $tableTop; my $tableBottom;
+	my ($userInfo, $statuses, $following, $followers);
+	eval{
+		$userInfo = $nt->show_user($twitiUser);
+		$statuses = $nt->friends_timeline({ my $since_id => my $high_water });
+		$following = $nt->friends;
+		$followers = $nt->followers;
+	};
 	
-	my $userInfo = $nt->show_user($twitiUser);
-	my $statuses = $nt->friends_timeline({ my $since_id => my $high_water });
-	my $following = $nt->friends;
-	my $followers = $nt->followers;
-
+	# Error handling block...put after any eval that is done on a Twitter function!
+	if( $@ )
+	{
+		if( $@->isa('Net::Twitter::Lite::Error') )
+		{  
+			my $error = checkError( $@ );
+			return $error;
+		} else{  return "Some Other Error?! : $@";  }
+	}
+	
+	my ($tweets, $tableTop, $tableBottom);
 $tableTop = "
 <table cellpadding=5 cellspacing=1 border=0>
 	<tr>
@@ -229,17 +240,26 @@ sub tweet
 	my $topic = $session->{topicName};
 	my $user = $session->{user};
 	
-	my $update = $query->param( 'tweet' );
+	my ($nt, $twitiUser) = setupNetTwitter();
+	my ($ntrt, $twitiRetweet) = setupNetTwitterRT();
 	
-	my ($nt, $twitiUser, $error) = setupNetTwitter();
-	if( $error != 0 ) {  warn $error;  }
+	my $tweet = $query->param( 'tweet' );
+	eval{
+		my $r = $nt->update($tweet);
+		$r = $ntrt->update($tweet);
+	};
 	
-	my ($ntrt, $twitiRetweet, $error) = setupNetTwitterRT();
-	if( $error != 0 ) {  warn $error;  }
-	
-	my $r = $nt->update($update);
-	   $r = $ntrt->update($update);
-	
+	# Error handling block...
+	if( $@ )
+	{
+		if( $@->isa('Net::Twitter::Lite::Error') )
+		{  
+			my $error = checkError( $@ );
+			warn $error;
+			TWiki::Func::redirectCgiQuery($query, $error);
+		} else{  warn "Some Other Error?! : $@";  TWiki::Func::redirectCgiQuery($query, $error);  }
+	}
+	   
 	$session->redirect( TWiki::Func::getViewUrl( $webName, $topic ) );
 }
 
@@ -247,14 +267,24 @@ sub tweetSave
 {
 	my $tweet = shift;
 
-	my ($nt, $twitiUser, $error) = setupNetTwitter();
-	if( $error != 0 ) {  warn $error;  }
+	my ($nt, $twitiUser) = setupNetTwitter();
+	my ($ntrt, $twitiRetweet) = setupNetTwitterRT();
 	
-	my ($ntrt, $twitiRetweet, $error) = setupNetTwitterRT();
-	if( $error != 0 ) {  warn $error;  }
+	eval{
+		my $r = $nt->update($tweet);
+		$r = $ntrt->update($tweet);
+	};
 	
-	my $r = $nt->update($tweet);
-	   $r = $ntrt->update($tweet);
+	# Error handling block...
+	if( $@ )
+	{
+		if( $@->isa('Net::Twitter::Lite::Error') )
+		{  
+			my $error = checkError( $@ );
+			warn $error;
+			TWiki::Func::redirectCgiQuery($query, $error);
+		} else{  warn "Some Other Error?! : $@";  TWiki::Func::redirectCgiQuery($query, $error);  }
+	}
 }
 
 1;
