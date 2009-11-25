@@ -38,7 +38,7 @@ sub setupNetTwitter
 		else{  $error = "Error?! : $@";  }
 	}
 	else
-	{  $error = 0;  }
+	{  $error = 12;  }
 	
 	return ($nt, $twitiUser, $error);
 }
