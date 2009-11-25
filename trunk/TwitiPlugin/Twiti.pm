@@ -75,9 +75,13 @@ sub twitiMain {
 	
 	my $tweets; my $tableTop; my $tableBottom;
 	
-	my $userInfo;
-	eval{ $userInfo = $nt->show_user($twitiUser); };
-	
+	my $userInfo; my $statuses; my $following; my $followers;
+	eval{ 
+		$userInfo = $nt->show_user($twitiUser);
+		$statuses = $nt->friends_timeline({ my $since_id => my $high_water, count=>5 });
+		$following = $nt->friends;
+		$followers = $nt->followers;
+	};
 	my $error = $@;
 	if( $error )
 	{
@@ -86,12 +90,8 @@ sub twitiMain {
 		else{ $error = "Error?! : $@";  }
 	}
 	else { $error = "ARGH!"; }
-	if( $error != 0 ) {  return " SHOW USER: $error";  }
+	if( $error == 0 ) {  return " SHOW USER: $error";  }
 	else { return "Show User: $error "; }
-	
-	my $statuses = $nt->friends_timeline({ my $since_id => my $high_water, count=>5 });
-	my $following = $nt->friends;
-	my $followers = $nt->followers;
 	
 $tableTop = "
 <link rel=\"stylesheet\" href=\"$imgPath/twiti.css\" type=\"text/css\">
