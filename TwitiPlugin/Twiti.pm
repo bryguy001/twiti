@@ -257,10 +257,10 @@ sub tweet
 		{  
 			my $error = checkError( $@ );
 			warn $error;
-			throw TWiki::OopsException( 'accessdenied', def=>'topic_access',web=>$webName,topic=>$topic,params=> [ 'Tweet problem...', $error ] );
+			throw TWiki::OopsException( 'generic', web=>$webName, topic=>$topic, params=> [ 'Tweet problem...', $error ] );
 		} else{  
 			warn "Some Other Error?! : $@";  
-			throw TWiki::OopsException( 'accessdenied', def=>'topic_access',web=>$webName,topic=>$topic,params=> [ 'Tweet problem...', $@ ] );
+			throw TWiki::OopsException( 'generic', web=>$webName, topic=>$topic, params=> [ 'Tweet problem...', $@ ] );
 		}
 	}
 	   
@@ -290,10 +290,10 @@ sub tweetSave
 		{  
 			my $error = checkError( $@ );
 			warn $error;
-			throw TWiki::OopsException( 'accessdenied', def=>'topic_access',web=>$webName,topic=>$topic,params=> [ 'Tweet problem...', $error ] );
+			throw TWiki::OopsException( 'generic', web=>$webName, topic=>$topic, params=> [ 'Tweet problem...', $error ] );
 		} else{  
 			warn "Some Other Error?! : $@";  
-			throw TWiki::OopsException( 'accessdenied', def=>'topic_access',web=>$webName,topic=>$topic,params=> [ 'Tweet problem...', $@ ] );
+			throw TWiki::OopsException( 'generic', web=>$webName, topic=>$topic, params=> [ 'Tweet problem...', $@ ] );
 		}
 	}
 }
