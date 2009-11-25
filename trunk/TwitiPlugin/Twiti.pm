@@ -27,7 +27,8 @@ sub setupNetTwitter
 	my $twitiUser = "TwitiTestUser";
 	my $twitiPass = "twitiiscoolOMGTHISISNOTRIGHT!";
 	
-	my $nt = eval{ Net::Twitter::Lite->new(username => $twitiUser, password => $twitiPass,); };
+	my $nt;
+	eval{ $nt = Net::Twitter::Lite->new(username => $twitiUser, password => $twitiPass,); };
 	
 	my $error = $@;
 	if( $error )
@@ -47,7 +48,8 @@ sub setupNetTwitterRT
 	my $twitiUser = "TwitiRetweet";
 	my $twitiPass = "twitiistheshit";
 	
-	eval{ my $nt = Net::Twitter::Lite->new(username => $twitiUser, password => $twitiPass,); };
+	my $nt;
+	eval{ $nt = Net::Twitter::Lite->new(username => $twitiUser, password => $twitiPass,); };
 	
 	my $error = $@;
 	if( $error )
@@ -73,7 +75,8 @@ sub twitiMain {
 	
 	my $tweets; my $tableTop; my $tableBottom;
 	
-	eval{ my $userInfo = $nt->show_user($twitiUser); };
+	my $userInfo;
+	eval{ $userInfo = $nt->show_user($twitiUser); };
 	
 	my $error;
 	if( $@ )
