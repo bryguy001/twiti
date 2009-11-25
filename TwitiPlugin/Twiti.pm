@@ -9,9 +9,9 @@ sub checkError
 	my $errorCode = shift;
 	my $error;
 	
-	if( $errorCode == 200 ) { $error = 0; }
+	if( $errorCode == 200 ) { $error = 1234; }
 	elsif( $errorCode == 400 ) { $error = "Twitter Error 400: Bad Request"; }
-	elsif( $errorCode == 401 ) { $error = "Twitter Error 401: Not Authorized...Invalid User/Pass"; }
+	elsif( $errorCode == 401 ) { $error = "Twitter Error 401: Not Authorized...Invalid User/Pass"; return $error; }
 	elsif( $errorCode == 403 ) { $error = "Twitter Error 403: Forbidden"; }
 	elsif( $errorCode == 406 ) { $error = "Twitter Error 406: Not Acceptable (Bad Search?)"; }
 	elsif( $errorCode == 500 ) { $error = "Twitter Error 500: Internal Server Error (Something Broked!)"; }
