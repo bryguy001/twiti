@@ -267,7 +267,7 @@ sub tweetSave
 {
 	my $tweet = shift;
 	
-	$session = $TWiki::Plugins::SESSION;
+	my $session = $TWiki::Plugins::SESSION;
 	my $query = $session->{cgiQuery};
 
 	my ($nt, $twitiUser) = setupNetTwitter();
