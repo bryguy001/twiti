@@ -29,7 +29,8 @@ sub setupNetTwitter
 	
 	my $nt = eval{ Net::Twitter::Lite->new(username => $twitiUser, password => $twitiPass,); };
 	
-	if( my $error = $@ )
+	my $error = $@;
+	if( $@ )
 	{
 		if( blessed $error && $error->isa(Net::Twitter::Lite::Error) )
 		{  $error = checkError( $error->code() );  }
@@ -45,7 +46,8 @@ sub setupNetTwitterRT
 	
 	my $nt = eval{ Net::Twitter::Lite->new(username => $twitiUser, password => $twitiPass,); };
 	
-	if( my $error = $@ )
+	my $error = $@;
+	if( $@ )
 	{
 		if( blessed $error && $error->isa(Net::Twitter::Lite::Error) )
 		{  $error = checkError( $error->code() );  }
