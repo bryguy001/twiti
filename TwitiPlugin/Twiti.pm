@@ -8,6 +8,7 @@ use Net::Twitter::Lite;
 sub checkError
 {
 	my $err = shift;
+	my $html= shift;
 	my $errorCode = $err->code();
 	my $error;
 	
@@ -21,7 +22,10 @@ sub checkError
 	elsif( $errorCode == 503 ) { $error = "Twiti Error 503: Service Unavailable"; }
 	else { $error = "Something else happened!??! : Error Code -> $errorCode"; }
 	
-	return "<font color=red size=4><b> $error <br> Twitter Says: $err <br><br> </b></font>";
+	if($html)
+	{  return "<font color=red size=4><b> $error <br> Twitter Says: $err <br><br> </b></font>";  }
+	else
+	{  return "$error -- Twitter Says: $err";  }
 }
 
 sub setupNetTwitter
@@ -64,7 +68,7 @@ sub twitiMain {
 	{
 		if( $@->isa('Net::Twitter::Lite::Error') )
 		{  
-			my $error = checkError( $@ );
+			my $error = checkError( $@, 1 );
 			return $error;
 		} else{  return "Some Other Error?! : $@";  }
 	}
@@ -174,7 +178,7 @@ sub twitiPage
 	{
 		if( $@->isa('Net::Twitter::Lite::Error') )
 		{  
-			my $error = checkError( $@ );
+			my $error = checkError( $@, 1 );
 			return $error;
 		} else{  return "Some Other Error?! : $@";  }
 	}
@@ -255,12 +259,12 @@ sub tweet
 	{
 		if( $@->isa('Net::Twitter::Lite::Error') )
 		{  
-			my $error = checkError( $@ );
+			my $error = checkError( $@, 0 );
 			warn $error;
-			throw TWiki::OopsException( 'generic', web=>$webName, topic=>$topic, params=> [ 'Tweet problem...', $error ] );
+			throw TWiki::OopsException( 'generic', web=>$webName, topic=>$topic, params=> [ 'Tweet problem...', 'Unable to send tweet', $error, '' ] );
 		} else{  
 			warn "Some Other Error?! : $@";  
-			throw TWiki::OopsException( 'generic', web=>$webName, topic=>$topic, params=> [ 'Tweet problem...', $@ ] );
+			throw TWiki::OopsException( 'generic', web=>$webName, topic=>$topic, params=> [ 'Tweet problem...', 'Unable to send tweet', $@, '' ] );
 		}
 	}
 	   
@@ -288,12 +292,12 @@ sub tweetSave
 	{
 		if( $@->isa('Net::Twitter::Lite::Error') )
 		{  
-			my $error = checkError( $@ );
+			my $error = checkError( $@, 0 );
 			warn $error;
-			throw TWiki::OopsException( 'generic', web=>$webName, topic=>$topic, params=> [ 'Tweet problem...', $error ] );
+			throw TWiki::OopsException( 'generic', web=>$webName, topic=>$topic, params=> [ 'Tweet problem...', 'Unable to send tweet', $error, "Your page update was not saved, press back and perform a normal save or you will lose your update!" ] );
 		} else{  
 			warn "Some Other Error?! : $@";  
-			throw TWiki::OopsException( 'generic', web=>$webName, topic=>$topic, params=> [ 'Tweet problem...', $@ ] );
+			throw TWiki::OopsException( 'generic', web=>$webName, topic=>$topic, params=> [ 'Tweet problem...', 'Unable to send tweet', $@, "Your page update was not saved, press back and perform a normal save or you will lose your update!" ] );
 		}
 	}
 }
