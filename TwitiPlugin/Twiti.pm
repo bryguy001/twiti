@@ -12,7 +12,7 @@ sub checkError
 	
 	if( $errorCode == 200 ) { $error = 0; }
 	elsif( $errorCode == 400 ) { $error = "Twiti Error 400: Bad Request"; }
-	elsif( $errorCode == 401 ) { $error = "Twiti Error 401: Not Authorized"; return $error; }
+	elsif( $errorCode == 401 ) { $error = "Twiti Error 401: Not Authorized"; }
 	elsif( $errorCode == 403 ) { $error = "Twiti Error 403: Forbidden"; }
 	elsif( $errorCode == 406 ) { $error = "Twiti Error 406: Not Acceptable (Bad Search?)"; }
 	elsif( $errorCode == 500 ) { $error = "Twiti Error 500: Internal Server Error (Something Broked!)"; }
