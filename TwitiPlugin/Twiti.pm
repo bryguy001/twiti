@@ -4,27 +4,64 @@ package TWiki::Plugins::TwitiPlugin::Twiti;
 use strict;
 use Net::Twitter::Lite;
 
+sub checkError
+{
+	my $errorCode = shift;
+	my $error;
+	
+	if( $errorCode->code() == 200 ) { $error = 0; }
+	elsif( $errorCode == 400 ) { $error = "Twitter Error 400: Bad Request"; }
+	elsif( $errorCode == 401 ) { $error = "Twitter Error 401: Not Authorized...Invalid User/Pass"; }
+	elsif( $errorCode == 403 ) { $error = "Twitter Error 403: Forbidden"; }
+	elsif( $errorCode == 406 ) { $error = "Twitter Error 406: Not Acceptable (Bad Search?)"; }
+	elsif( $errorCode == 500 ) { $error = "Twitter Error 500: Internal Server Error (Something Broked!)"; }
+	elsif( $errorCode == 502 ) { $error = "Twitter Error 502: Bad Gateway...Twitter is down!"; }
+	elsif( $errorCode == 503 ) { $error = "Twitter Error 503: Service Unavailable...Twitter is up, but overloaded or somethin...come back later!"; }
+	else { $error = "Something else happened!??! : Error Code -> $errorCode"; }
+	
+	return $error;
+}
+
 sub setupNetTwitter
 {
 	my $twitiUser = "TwitiTestUser";
 	my $twitiPass = "twitiiscool";
 	
-	return (Net::Twitter::Lite->new(username => $twitiUser, password => $twitiPass,), $twitiUser);
+	my $nt = eval{ Net::Twitter::Lite->new(username => $twitiUser, password => $twitiPass,); }
+	
+	if( my $error = $@ )
+	{
+		if( blessed $error && $error->isa(Net::Twitter::Lite::Error) )
+		{  $error = checkError( $error->code() );  }
+	}
+	
+	return ($nt, $twitiUser, $error);
 }
+
 sub setupNetTwitterRT
 {
 	my $twitiUser = "TwitiRetweet";
 	my $twitiPass = "twitiistheshit";
 	
-	return (Net::Twitter::Lite->new(username => $twitiUser, password => $twitiPass,), $twitiUser);
+	my $nt = eval{ Net::Twitter::Lite->new(username => $twitiUser, password => $twitiPass,); }
+	
+	if( my $error = $@ )
+	{
+		if( blessed $error && $error->isa(Net::Twitter::Lite::Error) )
+		{  $error = checkError( $error->code() );  }
+	}
+	
+	return ($nt, $twitiUser, $error);
 }
+
 sub twitiMain {
 	my $session = $TWiki::Plugins::SESSION;
 	
 	my $imgPath = TWiki::Func::getPubUrlPath() . "/" . TWiki::Func::getTwikiWebname() . "/TwitiPlugin";
 	my $moreURL = TWiki::Func::getScriptUrl('TWiki', 'TwitiPlugin', 'view');
 	
-	my ($nt, $twitiUser) = setupNetTwitter();
+	my ($nt, $twitiUser, $error) = setupNetTwitter();
+	if( $error != 0 ) {  return $error;  }
 	
 	my $tweets; my $tableTop; my $tableBottom;
 	
@@ -122,7 +159,8 @@ sub twitiPage
 {
 	my $imgPath = TWiki::Func::getPubUrlPath() . "/" . TWiki::Func::getTwikiWebname() . "/TwitiPlugin";
 
-	my ($nt, $twitiUser) = setupNetTwitter();
+	my ($nt, $twitiUser, $error) = setupNetTwitter();
+	if( $error != 0 ) {  return $error;  }
 	
 	my $tweets; my $tableTop; my $tableBottom;
 	
@@ -183,20 +221,25 @@ $tableBottom = "
 sub tweet
 {
 	my $session = shift;
+	
 	$TWiki::Plugins::SESSION = $session;
 	my $query = $session->{cgiQuery};
 	return unless ( $query );
+	
 	my $webName = $session->{webName};
 	my $topic = $session->{topicName};
 	my $user = $session->{user};
-	my $r;
 	
-	my ($nt, $twitiUser) = setupNetTwitter();
-	my ($ntrt, $twitiRetweet) = setupNetTwitterRT();
 	my $update = $query->param( 'tweet' );
 	
-	$r = $nt->update($update);
-	$r = $ntrt->update($update);
+	my ($nt, $twitiUser, $error) = setupNetTwitter();
+	if( $error != 0 ) {  warn $error;  }
+	
+	my ($ntrt, $twitiRetweet, $error) = setupNetTwitterRT();
+	if( $error != 0 ) {  warn $error;  }
+	
+	my $r = $nt->update($update);
+	   $r = $ntrt->update($update);
 	
 	$session->redirect( TWiki::Func::getViewUrl( $webName, $topic ) );
 }
@@ -205,14 +248,14 @@ sub tweetSave
 {
 	my $tweet = shift;
 
-	my ($nt, $twitiUser) = setupNetTwitter();
-	my ($ntrt, $twitiRetweet) = setupNetTwitterRT();
+	my ($nt, $twitiUser, $error) = setupNetTwitter();
+	if( $error != 0 ) {  warn $error;  }
 	
+	my ($ntrt, $twitiRetweet, $error) = setupNetTwitterRT();
+	if( $error != 0 ) {  warn $error;  }
 	
-	$r = $nt->update($tweet);
-	$r = $ntrt->update($tweet);
-
-
+	my $r = $nt->update($tweet);
+	   $r = $ntrt->update($tweet);
 }
 
 1;
