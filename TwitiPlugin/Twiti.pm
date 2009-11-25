@@ -25,7 +25,7 @@ sub checkError
 sub setupNetTwitter
 {
 	my $twitiUser = "TwitiTestUser";
-	my $twitiPass = "twitiiscool";
+	my $twitiPass = "twitiiscoolOMGTHISISNOTRIGHT!";
 	
 	my $nt = eval{ Net::Twitter::Lite->new(username => $twitiUser, password => $twitiPass,); };
 	
