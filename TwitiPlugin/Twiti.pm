@@ -9,7 +9,7 @@ sub checkError
 	my $errorCode = shift;
 	my $error;
 	
-	if( $errorCode->code() == 200 ) { $error = 0; }
+	if( $errorCode == 200 ) { $error = 0; }
 	elsif( $errorCode == 400 ) { $error = "Twitter Error 400: Bad Request"; }
 	elsif( $errorCode == 401 ) { $error = "Twitter Error 401: Not Authorized...Invalid User/Pass"; }
 	elsif( $errorCode == 403 ) { $error = "Twitter Error 403: Forbidden"; }
@@ -30,11 +30,14 @@ sub setupNetTwitter
 	my $nt = eval{ Net::Twitter::Lite->new(username => $twitiUser, password => $twitiPass,); };
 	
 	my $error = $@;
-	if( $@ )
+	if( $error )
 	{
 		if( blessed $error && $error->isa('Net::Twitter::Lite::Error') )
 		{  $error = checkError( $error->code() );  }
+		else{  $error = "Error?! : $@";  }
 	}
+	else
+	{  $error = 0;  }
 	
 	return ($nt, $twitiUser, $error);
 }
@@ -47,11 +50,14 @@ sub setupNetTwitterRT
 	my $nt = eval{ Net::Twitter::Lite->new(username => $twitiUser, password => $twitiPass,); };
 	
 	my $error = $@;
-	if( $@ )
+	if( $error )
 	{
 		if( blessed $error && $error->isa('Net::Twitter::Lite::Error') )
 		{  $error = checkError( $error->code() );  }
+		else{  $error = "Error?! : $@";  }
 	}
+	else
+	{  $error = 0;  }
 	
 	return ($nt, $twitiUser, $error);
 }
