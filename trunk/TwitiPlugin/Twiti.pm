@@ -72,6 +72,7 @@ sub twitiMain {
 	
 	my ($nt, $twitiUser, $error) = setupNetTwitter();
 	if( $error != 0 ) {  return $error;  }
+	else { return $error;  }
 	
 	my $tweets; my $tableTop; my $tableBottom;
 	
