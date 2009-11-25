@@ -9,7 +9,7 @@ sub checkError
 	my $errorCode = shift;
 	my $error;
 	
-	if( $errorCode == 200 ) { $error = 1234; }
+	if( $errorCode == 200 ) { $error = 0; }
 	elsif( $errorCode == 400 ) { $error = "Twitter Error 400: Bad Request"; }
 	elsif( $errorCode == 401 ) { $error = "Twitter Error 401: Not Authorized...Invalid User/Pass"; return $error; }
 	elsif( $errorCode == 403 ) { $error = "Twitter Error 403: Forbidden"; }
@@ -38,7 +38,7 @@ sub setupNetTwitter
 		else{  $error = "Error?! : $@";  }
 	}
 	else
-	{  $error = 12;  }
+	{  $error = 0;  }
 	
 	return ($nt, $twitiUser, $error);
 }
@@ -72,7 +72,6 @@ sub twitiMain {
 	
 	my ($nt, $twitiUser, $error) = setupNetTwitter();
 	if( $error != 0 ) {  return $error;  }
-	else { return $error;  }
 	
 	my $tweets; my $tableTop; my $tableBottom;
 	
@@ -84,8 +83,10 @@ sub twitiMain {
 	{
 		if( blessed $@ && $@->isa('Net::Twitter::Lite::Error') )
 		{  $error = checkError( $@->code() );  }
+		else{ $error = "Error?! : $@";  }
 	}
 	if( $error != 0 ) {  return " SHOW USER: $error";  }
+	else { return "Show User: $error "; }
 	
 	my $statuses = $nt->friends_timeline({ my $since_id => my $high_water, count=>5 });
 	my $following = $nt->friends;
