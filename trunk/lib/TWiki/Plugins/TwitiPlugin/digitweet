@@ -1,0 +1,9 @@
+#!/usr/bin/perl
+my $twitiUser = "TwitiTestUser";
+my $twitiPass = "twitiiscool";
+
+my $nt = Net::Twitter::Lite->new(
+	  username => $twitiUser,
+	  password => $twitiPass
+  );
+$r = $nt->update("Someone clicked my Tweet button!!!");

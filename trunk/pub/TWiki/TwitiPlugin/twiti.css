@@ -1,0 +1,92 @@
+.tweet {
+	color : #000000;
+	font-size : 15px;
+	font-weight : normal;
+}
+.tweet a:link{
+	color : #5B9EBF;
+	font-size : 15px;
+	font-weight : bold;
+}
+.tweet a:visited{
+	color : #5B9EBF;
+	font-size : 15px;
+	font-weight : bold;
+}
+.tweetInfo {
+	color : #999999;
+	font-size : 12px;
+	font-weight : normal;
+}
+.tweetInfo a:link{
+	color : #666666;
+	font-size : 12px;
+	font-weight : bold;
+}
+.tweetInfo a:visited{
+	color : #666666;
+	font-size : 12px;
+	font-weight : bold;
+}
+
+.twitiWhite {
+	color : #FFFFFF;
+	font-size : 20px;
+	font-weight : normal;
+}
+.twitiWhite a:link{
+	color : #00CCFF;
+	font-size : 20px;
+	font-weight : bold;
+}
+
+
+.largeBlueBold a:hover      {
+	color: #FFFFFF;
+	font-size: 25px;
+	font-weight: bold;
+}
+.largeBlueBold{
+	color : #5B9EBF;
+	font-size : 25px;
+	font-weight : bold;
+}
+.largeBlueBold a:hover      {
+	color: #FFFFFF;
+	font-size: 25px;
+	font-weight: bold;
+}
+.largeBlue{
+	color : #5B9EBF;
+	font-size : 25px;
+}
+.mediumBlueBold{
+	color : #5B9EBF;
+	font-size : 18px;
+	font-weight : bold;
+}
+.mediumBlue{
+	color : #5B9EBF;
+	font-size : 18px;
+}
+.mediumBlue a:link{
+	color : #5B9EBF;
+	font-size : 18px;
+	font-weight : bold;
+}
+.mediumBlue a:visited{
+	color : #5B9EBF;
+	font-size : 18px;
+	font-weight : bold;
+}
+.smallBlueBold{
+	color : #5B9EBF;
+	font-size : 11px;
+	font-weight : bold;
+}
+.smallBlue{
+	color : #5B9EBF;
+	font-size : 11px;
+}
+	
+
