@@ -35,6 +35,12 @@ sub checkError
 	{  return "$error -- Twitter Says: $err";  }
 }
 
+
+sub UpdateLogin
+{
+   TWiki::Func::setSessionValue('TwitiPass', 'arthur' );
+   TWiki::Func::setSessionValue('TwitiUser', 'twitiArthur' );       
+}
 # setupNetTwitter & setupNetTwitterRT
 # Returns 2 variables:
 #   1st is the Net::Twitter structure
@@ -43,8 +49,10 @@ sub checkError
 # setupNetTwitterRT does the same thing, but for a retweet account
 sub setupNetTwitter
 {
-	my $twitiUser = "TwitiTestUser";
-	my $twitiPass = "twitiiscool";
+	my $twitiUser = TWiki::Func::getSessionValue('TwitiUser');
+	my $twitiPass = TWiki::Func::getSessionValue('TwitiPass');
+#	my $twitiUser = "TwitiTestUser";
+#	my $twitiPass = "twitiiscool";
 	
 	my $nt = Net::Twitter::Lite->new(username => $twitiUser, password => $twitiPass,);
 	
