@@ -63,8 +63,8 @@ sub preRenderingHandler
 
 sub handleTwiti 
 {
-	my $session = shift;#$TWiki::Plugins::SESSION;
-	#my $query = $session->{cgiQuery};
+	my $session = $TWiki::Plugins::SESSION;
+	my $query = $session->{cgiQuery};
 	return unless ( $query );
 
 	my $cnt = $query->param( 'nr' );
