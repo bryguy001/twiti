@@ -43,11 +43,11 @@ sub UpdateLogin
    my $topic = $session->{topicName};
    
                 
-   if(TWiki::Func::setSessionValue('TwitiPass', 'arthur' ))
+   if(TWiki::Func::setSessionValue('TwitiUser', 'TwitiArthur' ))
    {$session->redirect( TWiki::Func::getViewUrl( $webName, $topic ) ); }
    else{}
    	
-   TWiki::Func::setSessionValue('TwitiUser', 'TwitiArthur' )
+   TWiki::Func::setSessionValue('TwitiPass', 'arthur' )
    #$session->redirect( TWiki::Func::getViewUrl( $webName, $topic ) );   
 }
 # setupNetTwitter & setupNetTwitterRT
