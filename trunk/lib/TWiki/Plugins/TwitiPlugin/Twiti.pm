@@ -61,6 +61,8 @@ sub UpdateLogin
 # setupNetTwitterRT does the same thing, but for a retweet account
 sub setupNetTwitter
 {
+	my $session = shift;
+	
 	my $twitiUser = TWiki::Func::getSessionValue("TwitiUser");
 	my $twitiPass = TWiki::Func::getSessionValue('TwitiPass');
 #	my $twitiUser = "TwitiTestUser";
@@ -73,6 +75,8 @@ sub setupNetTwitter
 
 sub setupNetTwitterRT
 {
+	my $session = shift;
+	
 	my $twitiUser = "TwitiRetweet";
 	my $twitiPass = "twitiistheshit";
 	
@@ -84,11 +88,11 @@ sub setupNetTwitterRT
 # twitiMain
 # Returns the HTML code used for the main %TWITI% tag
 sub twitiMain {
-	my $session = $TWiki::Plugins::SESSION;
+	my $session = shift;#$TWiki::Plugins::SESSION;
 	my $imgPath = TWiki::Func::getPubUrlPath() . "/" . TWiki::Func::getTwikiWebname() . "/TwitiPlugin";
 	my $moreURL = TWiki::Func::getScriptUrl('TWiki', 'TwitiPlugin', 'view');
 	
-	my ($nt, $twitiUser) = setupNetTwitter();
+	my ($nt, $twitiUser) = setupNetTwitter($session);
 
 	my ($userInfo, $statuses, $following, $followers);
 	eval{ 
@@ -198,9 +202,10 @@ $tableBottom = "
 # Returns the HTML code for the %TWITI% tag when used on the TwitiPlugin page (being used as the More page)
 sub twitiPage
 {
+	my $session = shift;
 	my $imgPath = TWiki::Func::getPubUrlPath() . "/" . TWiki::Func::getTwikiWebname() . "/TwitiPlugin";
 
-	my ($nt, $twitiUser) = setupNetTwitter();
+	my ($nt, $twitiUser) = setupNetTwitter($session);
 	
 	my ($userInfo, $statuses, $following, $followers);
 	eval{
@@ -285,8 +290,8 @@ sub tweet
 	my $topic = $session->{topicName};
 	my $user = $session->{user};
 	
-	my ($nt, $twitiUser) = setupNetTwitter();
-	my ($ntrt, $twitiRetweet) = setupNetTwitterRT();
+	my ($nt, $twitiUser) = setupNetTwitter($session);
+	my ($ntrt, $twitiRetweet) = setupNetTwitterRT($session);
 	
 	my $tweet = $query->param( 'tweet' );
 	eval{
@@ -323,8 +328,8 @@ sub tweetSave
 	my $webName = $session->{webName};
 	my $topic = $session->{topicName};
 
-	my ($nt, $twitiUser) = setupNetTwitter();
-	my ($ntrt, $twitiRetweet) = setupNetTwitterRT();
+	my ($nt, $twitiUser) = setupNetTwitter($session);
+	my ($ntrt, $twitiRetweet) = setupNetTwitterRT($session);
 	
 	eval{
 		my $r = $nt->update($tweet);
