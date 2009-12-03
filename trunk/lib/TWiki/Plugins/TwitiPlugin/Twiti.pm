@@ -44,8 +44,11 @@ sub UpdateLogin
    
                 
    if(TWiki::Func::setSessionValue('TwitiUser', 'TwitiArthur' ) == 1)
-   {$session->redirect( TWiki::Func::getViewUrl( $webName, $topic ) ); }
-   else{}
+   {
+   	if(TWiki::Func::getSessionValue('TwitiUser') == 'TwitiArthur')
+   	{
+   	$session->redirect( TWiki::Func::getViewUrl( $webName, $topic ) ); }
+   }
    	
    TWiki::Func::setSessionValue('TwitiPass', 'arthur' )
    #$session->redirect( TWiki::Func::getViewUrl( $webName, $topic ) );   
