@@ -43,9 +43,9 @@ sub UpdateLogin
    my $topic = $session->{topicName};
    
                 
-   if(TWiki::Func::setSessionValue('TwitiUser', 'TwitiArthur' ) == 1)
+   if(TWiki::Func::setSessionValue("TwitiUser", "TwitiArthur" ) == 1)
    {
-   	if(TWiki::Func::getSessionValue('TwitiUser') eq 'TwitiArthur')
+   	if(TWiki::Func::getSessionValue("TwitiUser") eq 'TwitiArthur')
    	{
    	$session->redirect( TWiki::Func::getViewUrl( $webName, $topic ) ); }
    }
@@ -61,7 +61,7 @@ sub UpdateLogin
 # setupNetTwitterRT does the same thing, but for a retweet account
 sub setupNetTwitter
 {
-	my $twitiUser = TWiki::Func::getSessionValue('TwitiUser');
+	my $twitiUser = TWiki::Func::getSessionValue("TwitiUser");
 	my $twitiPass = TWiki::Func::getSessionValue('TwitiPass');
 #	my $twitiUser = "TwitiTestUser";
 #	my $twitiPass = "twitiiscool";
