@@ -44,7 +44,7 @@ my $session = shift;
    my $topic = $session->{topicName};
    
  
-   $session->{'TwitiUser'} = 'TwitiArthur':
+   $session->{TwitiUser} = 'TwitiArthur':
    $session->redirect( TWiki::Func::getViewUrl( $webName, $topic ) );
                   
    if(TWiki::Func::setSessionValue("TwitiUser", "TwitiArthur" ) == 1)
