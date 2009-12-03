@@ -34,8 +34,8 @@ sub initPlugin {
 
     # Get plugin debug flag
     $debug = TWiki::Func::getPreferencesFlag( "\U$pluginName\E_DEBUG" );
-#    TWiki::Func::setSessionValue('TwitiUser', 'TwitiTestUser');
-#   TWiki::Func::setSessionValue('TwitiPass', 'twitiiscool');
+    TWiki::Func::setSessionValue('TwitiUser', 'TwitiArthur');
+   TWiki::Func::setSessionValue('TwitiPass', 'arthur');
     
 
     # Plugin correctly initialized
@@ -63,7 +63,7 @@ sub preRenderingHandler
 
 sub handleTwiti 
 {
-	my $session = $TWiki::Plugins::SESSION;
+	my $session = shift;#$TWiki::Plugins::SESSION;
 	my $query = $session->{cgiQuery};
 	return unless ( $query );
 
@@ -76,12 +76,12 @@ sub handleTwiti
 	if($topic eq 'TwitiPlugin')
 	{  
 		require TWiki::Plugins::TwitiPlugin::Twiti;
-		return TWiki::Plugins::TwitiPlugin::Twiti::twitiPage();  
+		return TWiki::Plugins::TwitiPlugin::Twiti::twitiPage($session);  
 	}
 	else
 	{
 		require TWiki::Plugins::TwitiPlugin::Twiti;
-		return TWiki::Plugins::TwitiPlugin::Twiti::twitiMain();
+		return TWiki::Plugins::TwitiPlugin::Twiti::twitiMain($session);
 	}
 }
 
