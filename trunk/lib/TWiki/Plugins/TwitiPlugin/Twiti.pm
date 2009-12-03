@@ -41,10 +41,14 @@ sub UpdateLogin
    my $session = $TWiki::Plugins::SESSION;
    my $webName = $session->{webName};
    my $topic = $session->{topicName};
-                 
-   TWiki::Func::setSessionValue('TwitiPass', 'arthur' );
-   TWiki::Func::setSessionValue('TwitiUser', 'TwitiArthur' );    
-   $session->redirect( TWiki::Func::getViewUrl( $webName, $topic ) );   
+   
+                
+   if(TWiki::Func::setSessionValue('TwitiPass', 'arthur' ))
+   {$session->redirect( TWiki::Func::getViewUrl( $webName, $topic ) ); }
+   else{}
+   	
+   TWiki::Func::setSessionValue('TwitiUser', 'TwitiArthur' )
+   #$session->redirect( TWiki::Func::getViewUrl( $webName, $topic ) );   
 }
 # setupNetTwitter & setupNetTwitterRT
 # Returns 2 variables:
