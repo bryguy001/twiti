@@ -34,6 +34,9 @@ sub initPlugin {
 
     # Get plugin debug flag
     $debug = TWiki::Func::getPreferencesFlag( "\U$pluginName\E_DEBUG" );
+    TWiki::Func::setSessionValue('TwitiUser', 'TwitiTestUser');
+    TWiki::Func::setSessionValue('TwitiPass', 'twitiiscool');
+    
 
     # Plugin correctly initialized
     TWiki::Func::writeDebug( "- TWiki::Plugins::${pluginName}::initPlugin( $web.$topic ) is OK" ) if $debug;
