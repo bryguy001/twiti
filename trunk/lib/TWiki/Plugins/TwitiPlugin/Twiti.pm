@@ -92,7 +92,7 @@ sub twitiMain {
 		if( $@->isa('Net::Twitter::Lite::Error') )
 		{  
 			my $error = checkError( $@, 1 );
-			return $error . $twitiUser . $twitiPass;
+			return $error . $twitiUser;
 		} else{  return "Some Other Error?! : $@";  }
 	}
 
