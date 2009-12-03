@@ -39,7 +39,7 @@ sub checkError
 sub UpdateLogin
 {
    TWiki::Func::setSessionValue('TwitiPass', 'arthur' );
-   TWiki::Func::setSessionValue('TwitiUser', 'twitiArthur' );       
+   TWiki::Func::setSessionValue('TwitiUser', 'TwitiArthur' );       
 }
 # setupNetTwitter & setupNetTwitterRT
 # Returns 2 variables:
@@ -92,7 +92,7 @@ sub twitiMain {
 		if( $@->isa('Net::Twitter::Lite::Error') )
 		{  
 			my $error = checkError( $@, 1 );
-			return $error;
+			return $error . $twitiUser . $twitiPass;
 		} else{  return "Some Other Error?! : $@";  }
 	}
 
