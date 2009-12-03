@@ -43,7 +43,7 @@ sub UpdateLogin
    my $topic = $session->{topicName};
    
                 
-   if(TWiki::Func::setSessionValue('TwitiUser', 'TwitiArthur' ))
+   if(TWiki::Func::setSessionValue('TwitiUser', 'TwitiArthur' ) == 1)
    {$session->redirect( TWiki::Func::getViewUrl( $webName, $topic ) ); }
    else{}
    	
