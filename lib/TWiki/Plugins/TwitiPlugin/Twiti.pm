@@ -73,8 +73,8 @@ my $session = $TWiki::Plugins::SESSION;
 
 	#my $twitiUser = $array[0];#TWiki::Func::getSessionValue("TwitiUser");
 	#my $twitiPass = $array[1];#TWiki::Func::getSessionValue('TwitiPass');
-#	my $twitiUser = "TwitiTestUser";
-#	my $twitiPass = "twitiiscool";
+	my $twitiUser = "TwitiTestUser";
+	my $twitiPass = "twitiiscool";
 	
 	my $nt = Net::Twitter::Lite->new(username => $twitiUser, password => $twitiPass,);
 	
