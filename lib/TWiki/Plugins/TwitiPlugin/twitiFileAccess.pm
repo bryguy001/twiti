@@ -1,7 +1,5 @@
-#!/usr/bin/perl
-package TWiki::Plugins::TwitiPlugin::Twiti;
+package TWiki::Plugins::TwitiPlugin::twitiFileAccess;
 
-use Twiki::Func;
 use Crypt::Simple passphrase => 'twiti'
 
 # first param is the username/filename
