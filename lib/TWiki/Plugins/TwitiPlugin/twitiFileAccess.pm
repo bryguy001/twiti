@@ -15,7 +15,7 @@ sub retrieveTwitterJunk
 # returns twiiter information based on current Twiki user
 sub currentUserTwitter
 {
-  return retrieveTwitterJunk(%username);
+  return retrieveTwitterJunk($_[0]);
 }
 
 #first param is the username/filename
