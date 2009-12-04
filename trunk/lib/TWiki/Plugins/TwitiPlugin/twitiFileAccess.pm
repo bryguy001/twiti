@@ -7,7 +7,7 @@ sub retrieveTwitterJunk
 {
   my $filename = $_[0].".twiti";
   $text = TWiki::Func::readFile($filename);
-  @textArray = split("\n",$text);
+  @textArray = split(",",$text);
   #$textArray[1] = decrypt($textArray[1]);
   return @textArray;  
 }
@@ -24,7 +24,7 @@ sub currentUserTwitter
 sub StoreUsernameAndPassword
 {
   my $filename = $_[0] . ".twiti";
-  my $storestring = $_[1] . "\n" . $_[2];#encrypt($_[2]);
+  my $storestring = $_[1] . "," . $_[2];#encrypt($_[2]);
   TWiki::Func::saveFile($filename, $storestring);
 }
                                 
