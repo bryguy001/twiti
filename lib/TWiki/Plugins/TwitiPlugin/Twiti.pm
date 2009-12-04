@@ -106,7 +106,7 @@ sub twitiMain {
 	return unless ( $query );
 	
 	my ($nt, $twitiUser) = setupNetTwitter($session);
-$twitiUser = TWiki::Func::getSessionValue("TwitiUser");# "TwitiArthur" 
+
 	my ($userInfo, $statuses, $following, $followers);
 	eval{ 
 		$userInfo = $nt->show_user($twitiUser);
