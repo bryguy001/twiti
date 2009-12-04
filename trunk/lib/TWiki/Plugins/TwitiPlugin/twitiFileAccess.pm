@@ -1,6 +1,6 @@
 package TWiki::Plugins::TwitiPlugin::twitiFileAccess;
 
-use Crypt::Simple passphrase => 'twiti';
+#use Crypt::Simple passphrase => 'twiti';
 
 # first param is the username/filename
 sub retrieveTwitterJunk
@@ -25,7 +25,7 @@ sub StoreUsernameAndPassword
 {
   my $filename = $_[0] . ".twiti";
   my $storestring = $store . '\n' . $_[1];
-  $storestring = $store . '\n' . encrypt($_[2]);
+  $storestring = $store . '\n' . $_[2];#encrypt($_[2]);
   TWiki::Func::saveFile($filename, $storestring);
 }
                                 
