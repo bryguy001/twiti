@@ -29,3 +29,4 @@ sub StoreUsernameAndPassword
   TWiki::Func::saveFile($filename, $storestring);
 }
                                 
+1;
