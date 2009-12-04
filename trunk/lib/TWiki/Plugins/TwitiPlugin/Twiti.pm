@@ -80,7 +80,7 @@ my $twitiPass = "bleh";
 	
 	my $nt = Net::Twitter::Lite->new(username => $twitiUser, password => $twitiPass,);
 	
-	return ($nt, $twitiUser);
+	return ($nt, $user);
 }
 
 sub setupNetTwitterRT
