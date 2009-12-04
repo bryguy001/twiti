@@ -5,7 +5,7 @@ package TWiki::Plugins::TwitiPlugin::twitiFileAccess;
 # first param is the username/filename
 sub retrieveTwitterJunk
 {
-  my $filename = TWiki::Func::getWorkArea('TwitiPlugin') . $_[0].".twiti";
+  my $filename = TWiki::Func::getWorkArea('TwitiPlugin') . "/" . $_[0].".twiti";
   $text = TWiki::Func::readFile($filename);
   @textArray = split(",",$text);
   #$textArray[1] = decrypt($textArray[1]);
@@ -23,7 +23,7 @@ sub currentUserTwitter
 #third param is the Twitter password
 sub StoreUsernameAndPassword
 {
-  my $filename = TWiki::Func::getWorkArea('TwitiPlugin') . $_[0] . ".twiti";
+  my $filename = TWiki::Func::getWorkArea('TwitiPlugin') . "/" . $_[0] . ".twiti";
   my $storestring = $_[1] . "," . $_[2];#encrypt($_[2]);
   TWiki::Func::saveFile($filename, $storestring);
 }
