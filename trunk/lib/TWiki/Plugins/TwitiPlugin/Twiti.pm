@@ -261,7 +261,7 @@ $tableTop = "
 	for my $status ( @$statuses ) 
 	{
 	  $tweets .= "\n<tr>
-				my $tweet = $query->param( 'tweet' )		<td align=center valign=middle width=50>
+						<td align=center valign=middle width=50>
 						$status->{user}{profile_image_url}
 						</td>
 						<td valign=top>
