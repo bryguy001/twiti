@@ -1,4 +1,5 @@
 #!/usr/bin/perl
+package TWiki::Plugins::TwitiPlugin::Twiti;
 
 use Twiki::Func;
 use Crypt::Simple passphrase => 'twiti'

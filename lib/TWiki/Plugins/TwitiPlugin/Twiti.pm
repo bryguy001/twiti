@@ -38,14 +38,22 @@ sub checkError
 
 sub UpdateLogin
 {
-my $session = shift;
- #  my $session = $TWiki::Plugins::SESSION;
-   my $webName = $session->{webName};
-   my $topic = $session->{topicName};
+	my $session = shift;
+
+   	my $webName = $session->{webName};
+   	my $topic = $session->{topicName};
+	my $user = $session->{user};
+	my $query = $session->{cgiQuery};
+	return unless ( $query );
      
-   TWiki::Func::setSessionValue("TwitiUser", "TwitiArthur" );
-   TWiki::Func::setSessionValue('TwitiPass', 'arthur' );
-   $session->redirect( TWiki::Func::getViewUrl( $webName, $topic ) );   
+	my $userName = $query->param( 'twitiUser' );
+	my $password = $query->param( 'twitiPass' );
+
+	TWiki::Plugins::TwitiPlugin::twitiFileAccess::StoreUsernameAndPassword($user, $userName, $password);
+   
+	#TWiki::Func::setSessionValue("TwitiUser", "TwitiArthur" );
+   	#TWiki::Func::setSessionValue('TwitiPass', 'arthur' );
+   	$session->redirect( TWiki::Func::getViewUrl( $webName, $topic ) );   
 }
 # setupNetTwitter & setupNetTwitterRT
 # Returns 2 variables:
@@ -56,9 +64,12 @@ my $session = shift;
 sub setupNetTwitter
 {
 	my $session = shift;
-	
-	my $twitiUser = TWiki::Func::getSessionValue("TwitiUser");
-	my $twitiPass = TWiki::Func::getSessionValue('TwitiPass');
+	my $user = $session->{user};
+
+	my @array = TWiki::Plugins::TwitiPlugin::twitiFileAccess::currentUserTwitter($user);
+
+	my $twitiUser = $array[0];#TWiki::Func::getSessionValue("TwitiUser");
+	my $twitiPass = $array[1];#TWiki::Func::getSessionValue('TwitiPass');
 #	my $twitiUser = "TwitiTestUser";
 #	my $twitiPass = "twitiiscool";
 	
@@ -85,7 +96,8 @@ sub twitiMain {
 
 	my $session = shift;#$TWiki::Plugins::SESSION;
 	my $imgPath = TWiki::Func::getPubUrlPath() . "/" . TWiki::Func::getTwikiWebname() . "/TwitiPlugin";
-	my $moreURL = TWiki::Func::getScriptUrl('TWiki', 'TwitiPlugin', 'view');
+	my $moreURL = TWiki::Func:my $query = $session->{cgiQuery};
+	return unless ( $query );:getScriptUrl('TWiki', 'TwitiPlugin', 'view');
 	
 	my ($nt, $twitiUser) = setupNetTwitter($session);
 $twitiUser = TWiki::Func::getSessionValue("TwitiUser");# "TwitiArthur" 
@@ -248,7 +260,7 @@ $tableTop = "
 	for my $status ( @$statuses ) 
 	{
 	  $tweets .= "\n<tr>
-						<td align=center valign=middle width=50>
+				my $tweet = $query->param( 'tweet' )		<td align=center valign=middle width=50>
 						$status->{user}{profile_image_url}
 						</td>
 						<td valign=top>
