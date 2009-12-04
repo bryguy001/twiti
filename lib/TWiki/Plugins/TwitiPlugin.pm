@@ -97,9 +97,9 @@ sub UpdateLogin
    my $webName = $session->{webName};
    my $topic = $session->{topicName};
      
-   if(TWiki::Func::setSessionValue("TwitiUser", "TwitiArthur" ) == 1)
+   if($session->setSessionValue("TwitiUser", "TwitiArthur" ) == 1)
    {
-   	if(TWiki::Func::getSessionValue("TwitiUser") eq 'TwitiArthur')
+   	if($session->getSessionValue("TwitiUser") eq 'TwitiArthur')
    	{
    	$session->redirect( TWiki::Func::getViewUrl( $webName, $topic ) ); }
    }
