@@ -88,7 +88,7 @@ sub setupNetTwitterRT
 # twitiMain
 # Returns the HTML code used for the main %TWITI% tag
 sub twitiMain {
-TWiki::Func::setSessionValue("TwitiUser", "TwitiArthur" )
+TWiki::Func::setSessionValue("TwitiUser", "TwitiArthur" );
 	my $session = shift;#$TWiki::Plugins::SESSION;
 	my $imgPath = TWiki::Func::getPubUrlPath() . "/" . TWiki::Func::getTwikiWebname() . "/TwitiPlugin";
 	my $moreURL = TWiki::Func::getScriptUrl('TWiki', 'TwitiPlugin', 'view');
