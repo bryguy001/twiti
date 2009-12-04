@@ -71,8 +71,8 @@ my $session = $TWiki::Plugins::SESSION;
 	require TWiki::Plugins::TwitiPlugin::twitiFileAccess;
 	my @array = TWiki::Plugins::TwitiPlugin::twitiFileAccess::currentUserTwitter($user);
 
-	my $twitiUser = $array[0];#TWiki::Func::getSessionValue("TwitiUser");
-	my $twitiPass = $array[1];#TWiki::Func::getSessionValue('TwitiPass');
+	my $twitiUser = @array[0];#TWiki::Func::getSessionValue("TwitiUser");
+	my $twitiPass = @array[1];#TWiki::Func::getSessionValue('TwitiPass');
 #	my $twitiUser = "TwitiTestUser";
 #	my $twitiPass = "twitiiscool";
 	
