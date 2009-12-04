@@ -5,7 +5,7 @@ package TWiki::Plugins::TwitiPlugin::twitiFileAccess;
 # first param is the username/filename
 sub retrieveTwitterJunk
 {
-  my $filename = $_[0].".twiti"; #TWiki::Func::getWorkArea('TwitiPlugin') . "/" . $_[0].".twiti";
+  my $filename = TWiki::Func::getWorkArea('TwitiPlugin') . "/" . $_[0].".twiti";
   $text = TWiki::Func::readFile($filename);
   @textArray = split(/,/,$text);
   #$textArray[1] = decrypt($textArray[1]);
@@ -15,7 +15,7 @@ sub retrieveTwitterJunk
 # returns twiiter information based on current Twiki user
 sub currentUserTwitter
 {
-  return retrieveTwitterJunk(%username.".twiti");
+  return retrieveTwitterJunk(%username);
 }
 
 #first param is the username/filename
