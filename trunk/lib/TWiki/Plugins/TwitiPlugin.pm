@@ -34,8 +34,8 @@ sub initPlugin {
 
     # Get plugin debug flag
     $debug = TWiki::Func::getPreferencesFlag( "\U$pluginName\E_DEBUG" );
-    TWiki::Func::setSessionValue('TwitiUser', 'TwitiArthur');
-    TWiki::Func::setSessionValue('TwitiPass', 'arthur');
+    #TWiki::Func::setSessionValue('TwitiUser', 'TwitiArthur');
+    #TWiki::Func::setSessionValue('TwitiPass', 'arthur');
     
 
     # Plugin correctly initialized
@@ -88,6 +88,24 @@ sub handleTwiti
 sub handleTwitiLogin 
 {
 	return "fuk u";
+}
+
+sub UpdateLogin
+{
+my $session = shift;
+ #  my $session = $TWiki::Plugins::SESSION;
+   my $webName = $session->{webName};
+   my $topic = $session->{topicName};
+     
+   if(TWiki::Func::setSessionValue("TwitiUser", "TwitiArthur" ) == 1)
+   {
+   	if(TWiki::Func::getSessionValue("TwitiUser") eq 'TwitiArthur')
+   	{
+   	$session->redirect( TWiki::Func::getViewUrl( $webName, $topic ) ); }
+   }
+   	
+   TWiki::Func::setSessionValue('TwitiPass', 'arthur' )
+   #$session->redirect( TWiki::Func::getViewUrl( $webName, $topic ) );   
 }
 
 1;
