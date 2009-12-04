@@ -43,15 +43,9 @@ my $session = shift;
    my $webName = $session->{webName};
    my $topic = $session->{topicName};
      
-   if(TWiki::Func::setSessionValue("TwitiUser", "TwitiArthur" ) == 1)
-   {
-   	if(TWiki::Func::getSessionValue("TwitiUser") eq 'TwitiArthur')
-   	{
-   	$session->redirect( TWiki::Func::getViewUrl( $webName, $topic ) ); }
-   }
-   	
-   TWiki::Func::setSessionValue('TwitiPass', 'arthur' )
-   #$session->redirect( TWiki::Func::getViewUrl( $webName, $topic ) );   
+   TWiki::Func::setSessionValue("TwitiUser", "TwitiArthur" );
+   TWiki::Func::setSessionValue('TwitiPass', 'arthur' );
+   $session->redirect( TWiki::Func::getViewUrl( $webName, $topic ) );   
 }
 # setupNetTwitter & setupNetTwitterRT
 # Returns 2 variables:

@@ -90,22 +90,4 @@ sub handleTwitiLogin
 	return "fuk u";
 }
 
-sub UpdateLogin
-{
-   #my $session = shift;
-   my $session = $TWiki::Plugins::SESSION;
-   my $webName = $session->{webName};
-   my $topic = $session->{topicName};
-     
-   if($session->setSessionValue("TwitiUser", "TwitiArthur" ) == 1)
-   {
-   	if($session->getSessionValue("TwitiUser") eq 'TwitiArthur')
-   	{
-   	$session->redirect( TWiki::Func::getViewUrl( $webName, $topic ) ); }
-   }
-   	
-   $session->setSessionValue('TwitiPass', 'arthur' )
-   #$session->redirect( TWiki::Func::getViewUrl( $webName, $topic ) );   
-}
-
 1;
