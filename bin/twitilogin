@@ -12,5 +12,5 @@ BEGIN {
 
 use TWiki::UI;
 use TWiki::Plugins::TwitiPlugin::Twiti;
-TWiki::UI::run( \&TWiki::Plugins::TwitiPlugin::Twiti::UpdateLogin );
+TWiki::UI::run( \&TWiki::Plugins::TwitiPlugin::UpdateLogin );
 
