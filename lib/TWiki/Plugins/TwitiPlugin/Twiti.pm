@@ -49,6 +49,7 @@ sub UpdateLogin
 	my $userName = $query->param( 'twitiUser' );
 	my $password = $query->param( 'twitiPass' );
 
+	require TWiki::Plugins::TwitiPlugin::twitiFileAccess;
 	TWiki::Plugins::TwitiPlugin::twitiFileAccess::StoreUsernameAndPassword($user, $userName, $password);
    
 	#TWiki::Func::setSessionValue("TwitiUser", "TwitiArthur" );
@@ -66,6 +67,7 @@ sub setupNetTwitter
 	my $session = shift;
 	my $user = $session->{user};
 
+	require TWiki::Plugins::TwitiPlugin::twitiFileAccess;
 	my @array = TWiki::Plugins::TwitiPlugin::twitiFileAccess::currentUserTwitter($user);
 
 	my $twitiUser = $array[0];#TWiki::Func::getSessionValue("TwitiUser");
