@@ -24,8 +24,8 @@ sub currentUserTwitter
 sub StoreUsernameAndPassword
 {
   my $filename = $_[0] . ".twiti";
-  my $storestring = $store . '\n' . $_[1];
-  $storestring = $store . '\n' . $_[2];#encrypt($_[2]);
+  my $storestring = $_[1];
+  $storestring = $store . "\n" . $_[2];#encrypt($_[2]);
   TWiki::Func::saveFile($filename, $storestring);
 }
                                 
