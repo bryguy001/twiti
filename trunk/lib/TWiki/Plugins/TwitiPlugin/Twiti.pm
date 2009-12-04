@@ -294,9 +294,10 @@ $tableBottom = "
 # Sends the Twitter update...will divert to an OopsException page if an error occurs in the Twitter update
 sub tweet
 {
-	my $session = shift;
+#	my $session = shift;
 	
-	$TWiki::Plugins::SESSION = $session;
+#	$TWiki::Plugins::SESSION = $session;
+	my $session =$TWiki::Plugins::SESSION;
 	my $query = $session->{cgiQuery};
 	return unless ( $query );
 	
