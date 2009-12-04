@@ -6,7 +6,7 @@ package TWiki::Plugins::TwitiPlugin::twitiFileAccess;
 sub retrieveTwitterJunk
 {
   my $filename = $_[0].".twiti";
-  $text = Twiki::Func::readFile($filename);
+  $text = TWiki::Func::readFile($filename);
   @textArray = split('\n',$text);
   $textArray[1] = decrypt($textArray[1]);
   return @textArray;  
