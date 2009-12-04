@@ -70,6 +70,7 @@ my $session = $TWiki::Plugins::SESSION;
 
 	require TWiki::Plugins::TwitiPlugin::twitiFileAccess;
 	#my ($twitiUser, $twitiPass) 
+my $twitiPass = "bleh";
 	my $twitiUser = TWiki::Plugins::TwitiPlugin::twitiFileAccess::currentUserTwitter($user);
 
 	#my $twitiUser = $array[0];#TWiki::Func::getSessionValue("TwitiUser");
