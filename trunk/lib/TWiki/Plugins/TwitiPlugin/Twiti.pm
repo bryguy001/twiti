@@ -96,8 +96,9 @@ sub twitiMain {
 
 	my $session = shift;#$TWiki::Plugins::SESSION;
 	my $imgPath = TWiki::Func::getPubUrlPath() . "/" . TWiki::Func::getTwikiWebname() . "/TwitiPlugin";
-	my $moreURL = TWiki::Func:my $query = $session->{cgiQuery};
-	return unless ( $query );:getScriptUrl('TWiki', 'TwitiPlugin', 'view');
+	my $moreURL = TWiki::Func::getScriptUrl('TWiki', 'TwitiPlugin', 'view');
+	my $query = $session->{cgiQuery};
+	return unless ( $query );
 	
 	my ($nt, $twitiUser) = setupNetTwitter($session);
 $twitiUser = TWiki::Func::getSessionValue("TwitiUser");# "TwitiArthur" 
