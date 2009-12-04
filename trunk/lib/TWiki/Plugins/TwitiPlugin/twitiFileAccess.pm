@@ -9,7 +9,7 @@ sub retrieveTwitterJunk
   $text = TWiki::Func::readFile($filename);
   @textArray = split(/,/,$text);
   #$textArray[1] = decrypt($textArray[1]);
-  return @textArray;  
+  return $text;#@textArray;  
 }
 
 # returns twiiter information based on current Twiki user
