@@ -92,8 +92,8 @@ sub handleTwitiLogin
 
 sub UpdateLogin
 {
-my $session = shift;
- #  my $session = $TWiki::Plugins::SESSION;
+   #my $session = shift;
+   my $session = $TWiki::Plugins::SESSION;
    my $webName = $session->{webName};
    my $topic = $session->{topicName};
      
