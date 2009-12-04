@@ -104,7 +104,7 @@ sub UpdateLogin
    	$session->redirect( TWiki::Func::getViewUrl( $webName, $topic ) ); }
    }
    	
-   TWiki::Func::setSessionValue('TwitiPass', 'arthur' )
+   $session->setSessionValue('TwitiPass', 'arthur' )
    #$session->redirect( TWiki::Func::getViewUrl( $webName, $topic ) );   
 }
 
