@@ -38,8 +38,8 @@ sub checkError
 
 sub UpdateLogin
 {
-	my $session = shift;
-
+#	my $session = shift;
+my $session = $TWiki::Plugins::SESSION;
    	my $webName = $session->{webName};
    	my $topic = $session->{topicName};
 	my $user = $session->{user};
@@ -64,7 +64,8 @@ sub UpdateLogin
 # setupNetTwitterRT does the same thing, but for a retweet account
 sub setupNetTwitter
 {
-	my $session = shift;
+my $session = $TWiki::Plugins::SESSION;
+#	my $session = shift;
 	my $user = $session->{user};
 
 	require TWiki::Plugins::TwitiPlugin::twitiFileAccess;
@@ -82,7 +83,8 @@ sub setupNetTwitter
 
 sub setupNetTwitterRT
 {
-	my $session = shift;
+my $session = $TWiki::Plugins::SESSION;
+	#my $session = shift;
 	
 	my $twitiUser = "TwitiRetweet";
 	my $twitiPass = "twitiistheshit";
@@ -96,7 +98,8 @@ sub setupNetTwitterRT
 # Returns the HTML code used for the main %TWITI% tag
 sub twitiMain {
 
-	my $session = shift;#$TWiki::Plugins::SESSION;
+	#my $session = shift;
+	my $session = $TWiki::Plugins::SESSION;
 	my $imgPath = TWiki::Func::getPubUrlPath() . "/" . TWiki::Func::getTwikiWebname() . "/TwitiPlugin";
 	my $moreURL = TWiki::Func::getScriptUrl('TWiki', 'TwitiPlugin', 'view');
 	my $query = $session->{cgiQuery};
@@ -212,7 +215,8 @@ $tableBottom = "
 # Returns the HTML code for the %TWITI% tag when used on the TwitiPlugin page (being used as the More page)
 sub twitiPage
 {
-	my $session = shift;
+        my $session = $TWiki::Plugins::SESSION;
+#	my $session = shift;
 	my $imgPath = TWiki::Func::getPubUrlPath() . "/" . TWiki::Func::getTwikiWebname() . "/TwitiPlugin";
 
 	my ($nt, $twitiUser) = setupNetTwitter($session);
