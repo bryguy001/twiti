@@ -121,7 +121,7 @@ sub twitiMain {
 		if( $@->isa('Net::Twitter::Lite::Error') )
 		{  
 			my $error = checkError( $@, 1 );
-			return $error . $twitiUser;
+			return $error . "USERNAME HERE:" .$twitiUser;
 		} else{  return "Some Other Error?! : $@ $twitiUser";  }
 	}
 
