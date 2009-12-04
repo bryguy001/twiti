@@ -1,6 +1,6 @@
 package TWiki::Plugins::TwitiPlugin::twitiFileAccess;
 
-use Crypt::Simple passphrase => 'twiti'
+use Crypt::Simple passphrase => 'twiti';
 
 # first param is the username/filename
 sub retrieveTwitterJunk
