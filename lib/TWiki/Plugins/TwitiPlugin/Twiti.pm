@@ -122,7 +122,7 @@ sub twitiMain {
 		{  
 			my $error = checkError( $@, 1 );
 			return $error . $twitiUser;
-		} else{  return "Some Other Error?! : $@";  }
+		} else{  return "Some Other Error?! : $@ $twitiUser";  }
 	}
 
 	my ($tweets, $tableTop, $tableBottom);
