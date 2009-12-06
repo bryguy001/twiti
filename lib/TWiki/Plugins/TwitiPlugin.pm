@@ -72,23 +72,21 @@ sub handleTwiti
 	my $webName = $session->{webName};
 	my $topic = $session->{topicName};
 	my $user = $session->{user};
-	return $user;
 	
 	require TWiki::Plugins::TwitiPlugin::twitiFileAccess;
-	if(TWiki::Plugins::TwitiPlugin::twitiFileAccess::currentUserTwitter($user) eq "")
+	require TWiki::Plugins::TwitiPlugin::Twiti;
+	
+	if(($user eq "BaseUserMapping_666") or (TWiki::Plugins::TwitiPlugin::twitiFileAccess::currentUserTwitter($user) eq ""))
 	{
-		require TWiki::Plugins::TwitiPlugin::Twiti;
 		return TWiki::Plugins::TwitiPlugin::Twiti::twitiLogin(); 
 	}
 
 	if($topic eq 'TwitiPlugin')
 	{  
-		require TWiki::Plugins::TwitiPlugin::Twiti;
 		return TWiki::Plugins::TwitiPlugin::Twiti::twitiPage($session);  
 	}
 	else
 	{
-		require TWiki::Plugins::TwitiPlugin::Twiti;
 		return TWiki::Plugins::TwitiPlugin::Twiti::twitiMain($session);
 	}
 }
