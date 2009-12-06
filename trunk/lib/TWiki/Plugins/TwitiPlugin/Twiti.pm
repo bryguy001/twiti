@@ -118,7 +118,7 @@ $output = "
 		<font class=\"smallBlueBold\">Username
 		<input class=\"twikiInputField\" type=\"text\" name=\"twitiUser\" size=20 />
 		Password
-		<input class=\"twikiInputField\" type=\"text\" name=\"twitiPass\" size=20 />
+		<input class=\"twikiInputField\" type=\"password\" name=\"twitiPass\" size=20 />
 		<br><br>
 		<input type=\"submit\" class=\"TwikiSubmit\" value=\"LOGIN!\" />
 		</font>
