@@ -111,11 +111,13 @@ $output = "
 <td>
 <center>
 	<img src=\"$imgPath/twitiLogo200.png\">
+	<br>
 	<form action=\"/twiti/bin/twitilogin\">
-		<input class=\"twikiInputField\" type=\"text\" name=\"twitiUser\" size=40 />
-		<input class=\"twikiInputField\" type=\"text\" name=\"twitiPass\" size=40 />
+		<input class=\"twikiInputField\" type=\"text\" name=\"twitiUser\" size=20 />
+		<input class=\"twikiInputField\" type=\"text\" name=\"twitiPass\" size=20 />
 		<input type=\"submit\" class=\"TwikiSubmit\" value=\"LOGIN!\" />
 	</form>
+	<br>
 </center>
 </td>
 </tr>
