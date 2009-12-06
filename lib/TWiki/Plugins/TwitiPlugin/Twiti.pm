@@ -188,7 +188,7 @@ $tableTop = "
 		</td>
 		<td valign=middle width=225>
 			<font class=twitiWhite>
-			*$twitiUser* <br> $userInfo->{friends_count} following &nbsp; $userInfo->{followers_count} followers
+			<a href=\"http://www.twitter.com/$twitiUser\"><b>$twitiUser</b></a> <br> <a href=\"http://www.twitter.com/$twitiUser/following\">$userInfo->{friends_count} following</a> &nbsp; <a href=\"http://www.twitter.com/$twitiUser/followers\">$userInfo->{followers_count} followers</a>
 			</font>
 		</td>
 		<td valign=middle>
@@ -223,7 +223,7 @@ $tweets = "
 						</td>
 						<td valign=top>
 							<font class=tweet>
-							<b>$status->{user}{screen_name}</b> &nbsp; $status->{text} <br> 
+							<a href=\"http://www.twitter.com/$status->{user}{screen_name}\"><b>$status->{user}{screen_name}</b></a> &nbsp; $status->{text} <br> 
 							</font>
 							<font class=tweetInfo>
 							$status->{created_at} from $status->{source}

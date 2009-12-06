@@ -76,18 +76,23 @@ sub handleTwiti
 	require TWiki::Plugins::TwitiPlugin::twitiFileAccess;
 	require TWiki::Plugins::TwitiPlugin::Twiti;
 	
-	if(($user eq "BaseUserMapping_666") or (TWiki::Plugins::TwitiPlugin::twitiFileAccess::currentUserTwitter($user) == 0))
+	if($user eq "BaseUserMapping_666")
+	{  return "<font size=4 color=red><b>Please log into TWiki to use the Twiti plugin!</b></font>";  }
+	
+	if(TWiki::Plugins::TwitiPlugin::twitiFileAccess::currentUserTwitter($user) == 0)
 	{
 		return TWiki::Plugins::TwitiPlugin::Twiti::twitiLogin(); 
 	}
-
-	if($topic eq 'TwitiPlugin')
-	{  
-		return TWiki::Plugins::TwitiPlugin::Twiti::twitiPage($session);  
-	}
 	else
 	{
-		return TWiki::Plugins::TwitiPlugin::Twiti::twitiMain($session);
+		if($topic eq 'TwitiPlugin')
+		{  
+			return TWiki::Plugins::TwitiPlugin::Twiti::twitiPage($session);  
+		}
+		else
+		{
+			return TWiki::Plugins::TwitiPlugin::Twiti::twitiMain($session);
+		}
 	}
 }
 
