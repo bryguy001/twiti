@@ -76,7 +76,7 @@ sub handleTwiti
 	require TWiki::Plugins::TwitiPlugin::twitiFileAccess;
 	require TWiki::Plugins::TwitiPlugin::Twiti;
 	
-	if(($user eq "BaseUserMapping_666") or (TWiki::Plugins::TwitiPlugin::twitiFileAccess::currentUserTwitter($user) eq ""))
+	if(($user eq "BaseUserMapping_666") or (TWiki::Plugins::TwitiPlugin::twitiFileAccess::currentUserTwitter($user) == 0))
 	{
 		return TWiki::Plugins::TwitiPlugin::Twiti::twitiLogin(); 
 	}
