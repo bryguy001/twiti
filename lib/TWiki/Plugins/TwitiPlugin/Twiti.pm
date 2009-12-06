@@ -103,7 +103,7 @@ $output = "
 <table width=250 cellpadding=0 cellspacing=0 border=0>
 	<tr>
 		<td width=250>
-		<img src=\"$imgPath/loginTop.png\" width=250 height=11 border=0>
+		<img src=\"$imgPath/loginTop.png\" width=250 height=6 border=0>
 		</td>
 	</tr>
 </table>
@@ -119,7 +119,7 @@ $output = "
 		<input class=\"twikiInputField\" type=\"text\" name=\"twitiUser\" size=20 />
 		Password
 		<input class=\"twikiInputField\" type=\"text\" name=\"twitiPass\" size=20 />
-		<br>
+		<br><br>
 		<input type=\"submit\" class=\"TwikiSubmit\" value=\"LOGIN!\" />
 		</font>
 	</form>
@@ -131,7 +131,7 @@ $output = "
 <table width=250 cellpadding=0 cellspacing=0 border=0>
 	<tr>
 		<td>
-		<img src=\"$imgPath/loginBottom.png\" width=250 height=11 border=0>
+		<img src=\"$imgPath/loginBottom.png\" width=250 height=6 border=0>
 		</td>
 	</tr>
 </table>";
