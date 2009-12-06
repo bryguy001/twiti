@@ -52,8 +52,6 @@ my $session = $TWiki::Plugins::SESSION;
 	require TWiki::Plugins::TwitiPlugin::twitiFileAccess;
 	TWiki::Plugins::TwitiPlugin::twitiFileAccess::StoreUsernameAndPassword($user, $userName, $password);
    
-	#TWiki::Func::setSessionValue("TwitiUser", "TwitiArthur" );
-   	#TWiki::Func::setSessionValue('TwitiPass', 'arthur' );
    	$session->redirect( TWiki::Func::getViewUrl( $webName, $topic ) );   
 }
 # setupNetTwitter & setupNetTwitterRT
@@ -94,6 +92,45 @@ my $session = $TWiki::Plugins::SESSION;
 	return ($nt, $twitiUser);
 }
 
+sub twitiLogin {
+	my $session = $TWiki::Plugins::SESSION;
+	my $imgPath = TWiki::Func::getPubUrlPath() . "/" . TWiki::Func::getTwikiWebname() . "/TwitiPlugin";
+	
+	my $output;
+	
+$output = "
+<table width=250 cellpadding=0 cellspacing=0 border=0>
+	<tr>
+		<td width=250>
+		<img src=\"$imgPath/loginTop.png\" width=250 height=11 border=0>
+		</td>
+	</tr>
+</table>
+<table width=250 cellpadding=5 cellspacing=0 border=0 background=\"$imgPath/loginBorder.png\">
+<tr>
+<td>
+<center>
+	<img src=\"$imgPath/twitiLogo200.png\">
+	<form action=\"/twiti/bin/twitilogin\">
+		<input class=\"twikiInputField\" type=\"text\" name=\"twitiUser\" size=40 />
+		<input class=\"twikiInputField\" type=\"text\" name=\"twitiPass\" size=40 />
+		<input type=\"submit\" class=\"TwikiSubmit\" value=\"LOGIN!\" />
+	</form>
+</center>
+</td>
+</tr>
+</table>
+<table width=250 cellpadding=0 cellspacing=0 border=0>
+	<tr>
+		<td>
+		<img src=\"$imgPath/loginBottom.png\" width=250 height=11 border=0>
+		</td>
+	</tr>
+</table>";
+	
+	return $output;
+}
+
 # twitiMain
 # Returns the HTML code used for the main %TWITI% tag
 sub twitiMain {
@@ -102,8 +139,6 @@ sub twitiMain {
 	my $session = $TWiki::Plugins::SESSION;
 	my $imgPath = TWiki::Func::getPubUrlPath() . "/" . TWiki::Func::getTwikiWebname() . "/TwitiPlugin";
 	my $moreURL = TWiki::Func::getScriptUrl('TWiki', 'TwitiPlugin', 'view');
-	my $query = $session->{cgiQuery};
-	return unless ( $query );
 	
 	my ($nt, $twitiUser) = setupNetTwitter($session);
 
