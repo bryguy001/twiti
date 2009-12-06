@@ -99,6 +99,7 @@ sub twitiLogin {
 	my $output;
 	
 $output = "
+<link rel=\"stylesheet\" href=\"$imgPath/twiti.css\" type=\"text/css\">
 <table width=250 cellpadding=0 cellspacing=0 border=0>
 	<tr>
 		<td width=250>
@@ -112,10 +113,15 @@ $output = "
 <center>
 	<img src=\"$imgPath/twitiLogo200.png\">
 	<br>
+	<br>
 	<form action=\"/twiti/bin/twitilogin\">
+		<font class=\"smallBlueBold\">Username
 		<input class=\"twikiInputField\" type=\"text\" name=\"twitiUser\" size=20 />
+		Password
 		<input class=\"twikiInputField\" type=\"text\" name=\"twitiPass\" size=20 />
+		<br>
 		<input type=\"submit\" class=\"TwikiSubmit\" value=\"LOGIN!\" />
+		</font>
 	</form>
 	<br>
 </center>
