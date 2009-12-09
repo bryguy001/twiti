@@ -410,9 +410,10 @@ sub tweetSave
 }
 sub logout 
 {
+    my $session = $TWiki::Plugins::SESSION;
     my $user = $session->{user};
     my $filename = TWiki::Func::getWorkArea('TwitiPlugin') . "/" . $user . ".twiti";
-    my $storestring = $_[1] . "," . $_[2];#encrypt($_[2]);
+    my $storestring = $_[1] . "," . $_[2];
     TWiki::Func::saveFile($filename, "");
 }
 
