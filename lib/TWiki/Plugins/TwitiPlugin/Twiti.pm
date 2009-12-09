@@ -415,6 +415,7 @@ sub logout
     my $filename = TWiki::Func::getWorkArea('TwitiPlugin') . "/" . $user . ".twiti";
     my $storestring = $_[1] . "," . $_[2];
     TWiki::Func::saveFile($filename, "");
+    $session->redirect( TWiki::Func::getViewUrl( $session->{webName}, $session->{topicName} ) );
 }
 
 1;
