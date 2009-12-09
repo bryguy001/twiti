@@ -351,8 +351,9 @@ sub tweet
 	{
 		($ntrt, $twitiRetweet) = setupNetTwitterRT($session);
 	}
-	
 	my $tweet = $query->param( 'tweet' );
+	use WWW::Shorten::TinyURL;
+	$tweet = makeashorterlink(TWiki::Func::getViewUrl( $webName, $topic ))." ".$tweet; 
 	eval{
 		my $r = $nt->update($tweet);
 		
@@ -398,7 +399,23 @@ sub tweetSave
 		my $r = $nt->update($tweet);
 		$r = $ntrt->update($tweet);
 	};
-	
+	my ($ntrt, $twitiRetweet);
+	        if( $TWiki::cfg{TwitiPlugin}{RetweetEnabled} )
+		        {
+		                ($ntrt, $twitiRetweet) = setupNetTwitterRT($session);
+					        }
+						        my $tweet = $query->param( 'tweet' );
+							        use WWW::Shorten::TinyURL;
+								        $tweet = makeashorterlink(TWiki::Func::getViewUrl( $webName, $topic ))." ".$tweet;
+									        eval{
+                my $r = $nt->update($tweet);
+
+												                if( $TWiki::cfg{TwitiPlugin}{RetweetEnabled} )
+				                {
+																                        $r = $ntrt->update( 'RT @' . $twitiUser . ' ' . $tweet);
+																			                }
+																					        };
+
 	# Error handling block 2...This is only for tweet & tweetSave!!!!!
 	if( $@ )
 	{
