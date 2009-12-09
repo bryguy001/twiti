@@ -350,9 +350,10 @@ sub tweet
 	my ($nt, $twitiUser) = setupNetTwitter($session);
 	
 	# if retweet is enabled, setup the Net::Twitter for it
+	my ($ntrt, $twitiRetweet);
 	if( $TWiki::cfg{TwitiPlugin}{RetweetEnabled} )
 	{
-		my ($ntrt, $twitiRetweet) = setupNetTwitterRT($session);
+		($ntrt, $twitiRetweet) = setupNetTwitterRT($session);
 	}
 	
 	my $tweet = $query->param( 'tweet' );
