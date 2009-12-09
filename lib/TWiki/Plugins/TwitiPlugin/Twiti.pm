@@ -389,13 +389,13 @@ sub tweetSave
 	my $session = $TWiki::Plugins::SESSION;
 	my $webName = $session->{webName};
 	my $topic = $session->{topicName};
-
+	my ($nt, $twitiUser) = setupNetTwitter($session);
 	my ($ntrt, $twitiRetweet);
 	if( $TWiki::cfg{TwitiPlugin}{RetweetEnabled} )
 	{
 		($ntrt, $twitiRetweet) = setupNetTwitterRT($session);
 	}
-	my $tweet = $query->param( 'tweet' );
+	#my $tweet = $query->param( 'tweet' );
 	use WWW::Shorten::TinyURL;
 	$tweet = makeashorterlink(TWiki::Func::getViewUrl( $webName, $topic ))." ".$tweet; 
 	eval{
