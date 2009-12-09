@@ -81,11 +81,10 @@ my $session = $TWiki::Plugins::SESSION;
 
 sub setupNetTwitterRT
 {
-my $session = $TWiki::Plugins::SESSION;
-	#my $session = shift;
+	my $session = $TWiki::Plugins::SESSION;
 	
-	my $twitiUser = "TwitiRetweet";
-	my $twitiPass = "twitiistheshit";
+	my $twitiUser = $TWiki::cfg{TwitiPlugin}{RetweetUsername};
+	my $twitiPass = $TWiki::cfg{TwitiPlugin}{RetweetPassword};
 	
 	my $nt = Net::Twitter::Lite->new(username => $twitiUser, password => $twitiPass,);
 	
@@ -349,12 +348,21 @@ sub tweet
 	my $user = $session->{user};
 	
 	my ($nt, $twitiUser) = setupNetTwitter($session);
-	my ($ntrt, $twitiRetweet) = setupNetTwitterRT($session);
+	
+	# if retweet is enabled, setup the Net::Twitter for it
+	if( $TWiki::cfg{TwitiPlugin}{RetweetEnabled} )
+	{
+		my ($ntrt, $twitiRetweet) = setupNetTwitterRT($session);
+	}
 	
 	my $tweet = $query->param( 'tweet' );
 	eval{
 		my $r = $nt->update($tweet);
-		$r = $ntrt->update($tweet);
+		
+		if( $TWiki::cfg{TwitiPlugin}{RetweetEnabled} )
+		{
+			$r = $ntrt->update( 'RT @' . $twitiUser . ' ' . $tweet);
+		}
 	};
 	
 	# Error handling block 2...This is only for tweet & tweetSave!!!!!
