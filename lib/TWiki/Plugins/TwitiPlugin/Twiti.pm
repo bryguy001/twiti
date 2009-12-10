@@ -506,7 +506,7 @@ $tableTop = "
 		</td>
 	</tr>";
 	
-	foreach my $status ( @$statuses ) 
+	foreach my $status ( @newStatuses ) 
 	{
 	  $tweets .= "\n<tr>
 						<td align=center valign=middle width=50>
