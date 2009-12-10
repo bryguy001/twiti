@@ -39,8 +39,7 @@ sub checkError
 
 sub UpdateLogin
 {
-#	my $session = shift;
-my $session = $TWiki::Plugins::SESSION;
+	my $session = $TWiki::Plugins::SESSION;
    	my $webName = $session->{webName};
    	my $topic = $session->{topicName};
 	my $user = $session->{user};
@@ -63,8 +62,7 @@ my $session = $TWiki::Plugins::SESSION;
 # setupNetTwitterRT does the same thing, but for a retweet account
 sub setupNetTwitter
 {
-my $session = $TWiki::Plugins::SESSION;
-#	my $session = shift;
+	my $session = $TWiki::Plugins::SESSION;
 	my $user = $session->{user};
 
 	require TWiki::Plugins::TwitiPlugin::twitiFileAccess;
@@ -138,8 +136,6 @@ $output = "
 # twitiMain
 # Returns the HTML code used for the main %TWITI% tag
 sub twitiMain {
-
-	#my $session = shift;
 	my $session = $TWiki::Plugins::SESSION;
 	my $imgPath = TWiki::Func::getPubUrlPath() . "/" . TWiki::Func::getTwikiWebname() . "/TwitiPlugin";
 	my $moreURL = TWiki::Func::getScriptUrl('TWiki', 'TwitiPlugin', 'view');
@@ -255,7 +251,7 @@ $tableBottom = "
 sub twitiPage
 {
         my $session = $TWiki::Plugins::SESSION;
-#	my $session = shift;
+
 	my $imgPath = TWiki::Func::getPubUrlPath() . "/" . TWiki::Func::getTwikiWebname() . "/TwitiPlugin";
 
 	my ($nt, $twitiUser) = setupNetTwitter($session);
@@ -322,7 +318,9 @@ $tableTop = "
 	
 $tableBottom = "
 		</td>
-	</tr>
+	</tr>*
+
+
 </table>";
 
 	return ($tableTop . $tweets . $tableBottom);
@@ -333,9 +331,6 @@ $tableBottom = "
 # Sends the Twitter update...will divert to an OopsException page if an error occurs in the Twitter update
 sub tweet
 {
-#	my $session = shift;
-	
-#	$TWiki::Plugins::SESSION = $session;
 	my $session =$TWiki::Plugins::SESSION;
 	my $query = $session->{cgiQuery};
 	return unless ( $query );
@@ -404,7 +399,6 @@ sub tweetSave
 	{
 		($ntrt, $twitiRetweet) = setupNetTwitterRT($session);
 	}
-	#my $tweet = $query->param( 'tweet' );
 
 	$tweet = makeashorterlink(TWiki::Func::getViewUrl( $webName, $topic ))." ".$tweet; 
 	eval{
@@ -460,16 +454,6 @@ sub twitiPageSpecific
 		$following = $nt->friends;
 		$followers = $nt->followers;
 	};
-	
-
-	my @newStatuses;
-	foreach my $status (@$statuses)
-	{
-		if( $status->{text} =~ m/($curPageTinyUrl)/ )
-		{
-			push(@newStatuses, $status);
-		}
-	}
 
 	# Error handling block...put after any eval that is done on a Twitter function!
 	if( $@ )
@@ -480,6 +464,18 @@ sub twitiPageSpecific
 			return $error;
 		} else{  return "Some Other Error?! : $@";  }
 	}
+
+	my @newStatuses;
+	foreach my $status (@$statuses)
+	{
+		if( $status->{text} =~ m/($curPageTinyUrl)/ )
+		{
+			push(@newStatuses, $status);
+		}
+	}
+
+	if(@newStatuses == 0)
+	{  return "<font size=4>No page specific Tweets!</font>";  }
 	
 	my ($tweets, $tableTop, $tableBottom);
 $tableTop = "
