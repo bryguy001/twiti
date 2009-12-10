@@ -479,6 +479,7 @@ sub twitiPageSpecific
 	
 	my ($tweets, $tableTop, $tableBottom);
 $tableTop = "
+---
 <table cellpadding=5 cellspacing=1 border=0>
 	<tr>
 		<td valign=middle width=225>
@@ -515,7 +516,8 @@ $tableTop = "
 $tableBottom = "
 		</td>
 	</tr>
-</table>";
+</table>
+---";
 
 	return ($tableTop . $tweets . $tableBottom);
 }
