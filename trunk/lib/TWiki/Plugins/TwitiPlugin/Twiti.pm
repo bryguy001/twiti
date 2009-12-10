@@ -390,10 +390,13 @@ sub tweetSave
 	my $webName = $session->{webName};
 	my $topic = $session->{topicName};
     my $user = $session->{user};
+    
+    require TWiki::Plugins::TwitiPlugin::twitiFileAccess;
     if(TWiki::Plugins::TwitiPlugin::twitiFileAccess::currentUserTwitter($user) == 0)
     {
         throw TWiki::OopsException( 'generic', web=>$webName, topic=>$topic, params=> [ 'Tweet problem...', 'Unable to send tweet', "You are not logged into twiti" , "Your page update was not saved, press back and perform a normal save or you will lose your update!" ] );
     }
+    
 	my ($nt, $twitiUser) = setupNetTwitter($session);
 	my ($ntrt, $twitiRetweet);
 	if( $TWiki::cfg{TwitiPlugin}{RetweetEnabled} )
