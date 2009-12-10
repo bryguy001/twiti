@@ -87,7 +87,8 @@ sub handleTwiti
 	{
 		if($attr)#->{thispage} eq "1")
 		{
-			return TWiki::Plugins::TwitiPlugin::Twiti::twitiPageSpecific($session);
+			return $attr;
+			#return TWiki::Plugins::TwitiPlugin::Twiti::twitiPageSpecific($session);
 		}
 		elsif($topic eq 'TwitiPlugin')
 		{  
