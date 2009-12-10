@@ -62,8 +62,8 @@ sub preRenderingHandler
 
 sub handleTwiti 
 {	
-	my $attr = $_[0];
 	my $session = $TWiki::Plugins::SESSION;
+	my $attr = $_[0];
 	my $query = $session->{cgiQuery};
 	return unless ( $query );
 
@@ -85,10 +85,9 @@ sub handleTwiti
 	}
 	else
 	{
-		if($attr)#->{thispage} eq "1")
+		if($attr->{thispage} eq "1")
 		{
-			return %$attr;
-			#return TWiki::Plugins::TwitiPlugin::Twiti::twitiPageSpecific($session);
+			return TWiki::Plugins::TwitiPlugin::Twiti::twitiPageSpecific($session);
 		}
 		elsif($topic eq 'TwitiPlugin')
 		{  
