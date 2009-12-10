@@ -92,7 +92,7 @@ sub twitiLogin {
 	my $session = $TWiki::Plugins::SESSION;
 	my $imgPath = TWiki::Func::getPubUrlPath() . "/" . TWiki::Func::getTwikiWebname() . "/TwitiPlugin";
 	
-	if($invalid) { $invalid = "<center><font color=red>Invalid Username/Password</font></center>"; }
+	if($invalid == 1) { $invalid = "<center><font color=red>Invalid Username/Password</font></center>"; }
 	else { $invalid = ""; }
 	
 	my $output;
