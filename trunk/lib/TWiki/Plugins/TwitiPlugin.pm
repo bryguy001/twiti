@@ -54,9 +54,9 @@ sub preRenderingHandler
     # Only bother with this plugin if viewing (i.e. not searching, etc)
     
 	return unless ($0 =~ m/view|viewauth|render/o);
-    $_[0] =~ s/%TWITI%/&handleTwiti($1)/geo;
+#    $_[0] =~ s/%TWITI%/&handleTwiti($1)/geo;
 	
-	#TWiki::Func::registerTagHandler( 'TWEET', \&TWiki::Plugins::TwitiPlugin::Twiti::handleTweeting );
+	TWiki::Func::registerTagHandler( 'TWITI', \&TWiki::Plugins::TwitiPlugin::Twiti::handleTwiti );
 
 }
 
