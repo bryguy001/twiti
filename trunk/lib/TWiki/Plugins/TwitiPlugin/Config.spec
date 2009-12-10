@@ -1,7 +1,7 @@
 # ---+ TwitiPlugin
-# This plugin integrates TWiki with users' Twitter accounts. User these
+# This plugin integrates TWiki with users' Twitter accounts. Use these
 # settings to specify a 'retweet' Twitter account with will copy the 
-# updates from Twiti users on this TWiki
+# updates from Twiti users on this TWiki.
 
 # **BOOLEAN**
 # Enable a retweet account. Requires information below.
