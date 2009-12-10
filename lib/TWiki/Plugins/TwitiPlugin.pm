@@ -54,8 +54,7 @@ sub preRenderingHandler
     # Only bother with this plugin if viewing (i.e. not searching, etc)
     
 	return unless ($0 =~ m/view|viewauth|render/o);
-    $_[0] =~ s/%TWITI%/&handleTwiti/geo;
-    $_[0] =~ s/%TWITILOGIN%/&handleTwitiLogin/geo;
+    $_[0] =~ s/%TWITI%/&handleTwiti($1)/geo;
 	
 	#TWiki::Func::registerTagHandler( 'TWEET', \&TWiki::Plugins::TwitiPlugin::Twiti::handleTweeting );
 
@@ -63,11 +62,12 @@ sub preRenderingHandler
 
 sub handleTwiti 
 {
+	my $attr = shift;
 	my $session = $TWiki::Plugins::SESSION;
 	my $query = $session->{cgiQuery};
 	return unless ( $query );
 
-	my $cnt = $query->param( 'nr' );
+	$attr = new TWiki::Attrs($attr);
 
 	my $webName = $session->{webName};
 	my $topic = $session->{topicName};
@@ -85,7 +85,11 @@ sub handleTwiti
 	}
 	else
 	{
-		if($topic eq 'TwitiPlugin')
+		if($attr->{thispage})
+		{
+			return TWiki::Plugins::TwitiPlugin::Twiti::twitiPageSpecific($session);
+		}
+		elsif($topic eq 'TwitiPlugin')
 		{  
 			return TWiki::Plugins::TwitiPlugin::Twiti::twitiPage($session);  
 		}
