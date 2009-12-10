@@ -530,7 +530,7 @@ sub logout
 	
     TWiki::Func::saveFile($filename, "");
 	
-	if($noRedirect) {}
+	if($noRedirect == 1) {}
 	else { $session->redirect( TWiki::Func::getViewUrl( $session->{webName}, $session->{topicName} ) ); }
 }
 
