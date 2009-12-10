@@ -235,7 +235,7 @@ $tableBottom = "
 	<tr>
 		<td>
 			<font class=mediumBlue>
-				<a href=\"$moreURL\">More</a>
+				&nbsp;&nbsp;<a href=\"$moreURL\">More</a>
 			</font>
 		</td>
 		<td align=right>
