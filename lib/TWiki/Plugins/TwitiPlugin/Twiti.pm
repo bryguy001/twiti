@@ -22,7 +22,7 @@ sub checkError
 	
 	if( $errorCode == 200 ) { $error = 0; }
 	elsif( $errorCode == 400 ) { $error = "Twiti Error 400: Bad Request"; }
-	elsif( $errorCode == 401 ) { logout();  return twitiLogin(1); }  #$error = "Twiti Error 401: Not Authorized"; }
+	elsif( $errorCode == 401 ) { logout(1);  return twitiLogin(1); }  #$error = "Twiti Error 401: Not Authorized"; }
 	elsif( $errorCode == 403 ) { $error = "Twiti Error 403: Forbidden"; }
 	elsif( $errorCode == 406 ) { $error = "Twiti Error 406: Not Acceptable (Bad Search?)"; }
 	elsif( $errorCode == 500 ) { $error = "Twiti Error 500: Internal Server Error (Something Broked!)"; }
@@ -92,7 +92,7 @@ sub twitiLogin {
 	my $session = $TWiki::Plugins::SESSION;
 	my $imgPath = TWiki::Func::getPubUrlPath() . "/" . TWiki::Func::getTwikiWebname() . "/TwitiPlugin";
 	
-	if($invalid == 1) { $invalid = "<center><font color=red>Invalid Username/Password</font></center>"; }
+	if($invalid) { $invalid = "<center><font color=red>Invalid Username/Password</font></center>"; }
 	else { $invalid = ""; }
 	
 	my $output;
@@ -517,15 +517,20 @@ sub tweetSave
 		}
 	}
 }
+
 sub logout 
 {
+	my $noRedirect = shift;
+	
     my $session = $TWiki::Plugins::SESSION;
     my $user = $session->{user};
 	
     my $filename = TWiki::Func::getWorkArea('TwitiPlugin') . "/" . $user . ".twiti";
 	
     TWiki::Func::saveFile($filename, "");
-    $session->redirect( TWiki::Func::getViewUrl( $session->{webName}, $session->{topicName} ) );
+	
+	if($noRedirect) {}
+	else { $session->redirect( TWiki::Func::getViewUrl( $session->{webName}, $session->{topicName} ) ); }
 }
 
 1;
