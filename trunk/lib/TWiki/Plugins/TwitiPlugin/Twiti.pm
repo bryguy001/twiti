@@ -497,14 +497,7 @@ $tableTop = "
 	</tr>
 </table>
 ---
-<table cellpadding=5 cellspacing=0 border=0>
-	<tr>
-		<td colspan=2>
-			<font class=largeBlue>
-			<form action=\"/twiti/bin/digitweet\"><input class=\"twikiInputField\" type=\"text\" name=\"tweet\" size=\"100\" />&nbsp;<input type=\"submit\" class=\"twikiSubmit\" value=\"Tweet\" /></form>
-			</font>
-		</td>
-	</tr>";
+<table cellpadding=5 cellspacing=0 border=0>";
 	
 	foreach my $status ( @newStatuses ) 
 	{
