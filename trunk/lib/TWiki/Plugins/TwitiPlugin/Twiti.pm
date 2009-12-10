@@ -326,9 +326,7 @@ $tableTop = "
 	
 $tableBottom = "
 		</td>
-	</tr>*
-
-
+	</tr>
 </table>";
 
 	return ($tableTop . $tweets . $tableBottom);
