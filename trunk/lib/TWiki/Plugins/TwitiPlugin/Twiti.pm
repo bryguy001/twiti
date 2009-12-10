@@ -201,7 +201,7 @@ $tableTop = "
 		</td>
 	</tr>
 </table>
-<table width=718 cellpadding=5 cellspacing=0 border=0 background=\"$imgPath/border.png\">";
+<table width=718 cellpadding=10 cellspacing=0 border=0 background=\"$imgPath/border.png\">";
 
 $tweets = "
 	<tr>
