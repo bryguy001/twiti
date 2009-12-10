@@ -465,7 +465,7 @@ sub twitiPageSpecific
 	my @newStatuses;
 	foreach my $status (@$statuses)
 	{
-		if( $status =~ m/\Q$curPageTinyUrl\E/ )
+		if( $status =~ m/.*($curPageTinyUrl).*/ )
 		{
 			push(@newStatuses, $status);
 		}
