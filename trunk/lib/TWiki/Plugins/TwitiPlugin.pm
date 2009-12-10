@@ -85,7 +85,7 @@ sub handleTwiti
 	}
 	else
 	{
-		if($attr->{thispage})
+		if($attr->{thispage} eq "1")
 		{
 			return TWiki::Plugins::TwitiPlugin::Twiti::twitiPageSpecific($session);
 		}
