@@ -465,7 +465,7 @@ sub twitiPageSpecific
 	my @newStatuses;
 	for my $status (@$statuses)
 	{
-		if( $status =~ /$curPageTinyUrl/ )
+		if( $status =~ m/($curPageTinyUrl)/ )
 		{
 			push(@newStatuses, $status);
 		}
@@ -503,9 +503,6 @@ $tableTop = "
 			<font class=largeBlue>
 			<form action=\"/twiti/bin/digitweet\"><input class=\"twikiInputField\" type=\"text\" name=\"tweet\" size=\"100\" />&nbsp;<input type=\"submit\" class=\"twikiSubmit\" value=\"Tweet\" /></form>
 			</font>
-		</td>
-		<td>
-			$curPageTinyUrl<br />
 		</td>
 	</tr>";
 	
