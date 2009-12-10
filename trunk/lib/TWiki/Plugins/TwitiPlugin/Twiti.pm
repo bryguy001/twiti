@@ -22,7 +22,7 @@ sub checkError
 	
 	if( $errorCode == 200 ) { $error = 0; }
 	elsif( $errorCode == 400 ) { $error = "Twiti Error 400: Bad Request"; }
-	elsif( $errorCode == 401 ) { $error = "Twiti Error 401: Not Authorized";  logout();  }
+	elsif( $errorCode == 401 ) { logout();  return twitiLogin(1); }  #$error = "Twiti Error 401: Not Authorized"; }
 	elsif( $errorCode == 403 ) { $error = "Twiti Error 403: Forbidden"; }
 	elsif( $errorCode == 406 ) { $error = "Twiti Error 406: Not Acceptable (Bad Search?)"; }
 	elsif( $errorCode == 500 ) { $error = "Twiti Error 500: Internal Server Error (Something Broked!)"; }
@@ -87,11 +87,15 @@ sub setupNetTwitterRT
 }
 
 sub twitiLogin {
+	my $invalid = shift;
+	
 	my $session = $TWiki::Plugins::SESSION;
 	my $imgPath = TWiki::Func::getPubUrlPath() . "/" . TWiki::Func::getTwikiWebname() . "/TwitiPlugin";
 	
-	my $output;
+	if($invalid) { $invalid = "<center><font color=red>Invalid Username/Password</font></center>"; }
+	else { $invalid = ""; }
 	
+	my $output;
 $output = "
 <link rel=\"stylesheet\" href=\"$imgPath/twiti.css\" type=\"text/css\">
 <table width=250 cellpadding=0 cellspacing=0 border=0>
@@ -108,6 +112,7 @@ $output = "
 	<img src=\"$imgPath/twitiLogo200.png\">
 	<br>
 	<br>
+	$invalid
 	<form action=\"/twiti/bin/twitilogin\">
 		<font class=\"smallBlueBold\">Username
 		<input class=\"twikiInputField\" type=\"text\" name=\"twitiUser\" size=20 />
