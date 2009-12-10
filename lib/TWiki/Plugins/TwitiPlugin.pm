@@ -34,8 +34,6 @@ sub initPlugin {
 
     # Get plugin debug flag
     $debug = TWiki::Func::getPreferencesFlag( "\U$pluginName\E_DEBUG" );
-    #TWiki::Func::setSessionValue('TwitiUser', 'TwitiArthur');
-    #TWiki::Func::setSessionValue('TwitiPass', 'arthur');
     
 
     # Plugin correctly initialized
@@ -54,7 +52,6 @@ sub preRenderingHandler
     # Only bother with this plugin if viewing (i.e. not searching, etc)
     
 	return unless ($0 =~ m/view|viewauth|render/o);
-#    $_[0] =~ s/%TWITI%/&handleTwiti($1)/geo;
 	
 	TWiki::Func::registerTagHandler( 'TWITI', \&TWiki::Plugins::TwitiPlugin::handleTwiti );
 
@@ -66,8 +63,6 @@ sub handleTwiti
 	my $attr = $_[1];
 	my $query = $session->{cgiQuery};
 	return unless ( $query );
-
-	#$attr = new TWiki::Attrs($attr);
 
 	my $webName = $session->{webName};
 	my $topic = $session->{topicName};
@@ -98,11 +93,6 @@ sub handleTwiti
 			return TWiki::Plugins::TwitiPlugin::Twiti::twitiMain($session);
 		}
 	}
-}
-
-sub handleTwitiLogin 
-{
-	return "fuk u";
 }
 
 1;

@@ -441,7 +441,7 @@ sub logout
 }
 
 # twitiPageSpecific
-# Returns the HTML code for the %TWITI% tag when used on the TwitiPlugin page (being used as the More page)
+# Returns the HTML code for the %TWITI{thispage="1"}% tag for page-specific tweets
 sub twitiPageSpecific
 {
         my $session = $TWiki::Plugins::SESSION;
