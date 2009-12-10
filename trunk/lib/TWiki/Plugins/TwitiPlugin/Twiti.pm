@@ -504,6 +504,9 @@ $tableTop = "
 			<form action=\"/twiti/bin/digitweet\"><input class=\"twikiInputField\" type=\"text\" name=\"tweet\" size=\"100\" />&nbsp;<input type=\"submit\" class=\"twikiSubmit\" value=\"Tweet\" /></form>
 			</font>
 		</td>
+		<td>
+			$curPageTinyUrl<br />
+		</td>
 	</tr>";
 	
 	for my $status ( @newStatuses ) 
