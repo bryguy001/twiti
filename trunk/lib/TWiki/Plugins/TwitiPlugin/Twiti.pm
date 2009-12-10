@@ -4,6 +4,7 @@ package TWiki::Plugins::TwitiPlugin::Twiti;
 use strict;
 use Error;
 use Net::Twitter::Lite;
+use WWW::Shorten::TinyURL;
 
 # checkError
 # Parses an error code from a Twitter error
@@ -404,7 +405,7 @@ sub tweetSave
 		($ntrt, $twitiRetweet) = setupNetTwitterRT($session);
 	}
 	#my $tweet = $query->param( 'tweet' );
-	use WWW::Shorten::TinyURL;
+
 	$tweet = makeashorterlink(TWiki::Func::getViewUrl( $webName, $topic ))." ".$tweet; 
 	eval{
 		my $r = $nt->update($tweet);
@@ -437,6 +438,97 @@ sub logout
     my $storestring = $_[1] . "," . $_[2];
     TWiki::Func::saveFile($filename, "");
     $session->redirect( TWiki::Func::getViewUrl( $session->{webName}, $session->{topicName} ) );
+}
+
+# twitiPageSpecific
+# Returns the HTML code for the %TWITI% tag when used on the TwitiPlugin page (being used as the More page)
+sub twitiPageSpecific
+{
+        my $session = $TWiki::Plugins::SESSION;
+	my $webName = $session->{webName};
+	my $topic = $session->{topicName};
+	my $imgPath = TWiki::Func::getPubUrlPath() . "/" . TWiki::Func::getTwikiWebname() . "/TwitiPlugin";
+	
+	my $curPageTinyUrl = makeashorterlink(TWiki::Func::getViewUrl( $webName, $topic ));
+
+	my ($nt, $twitiUser) = setupNetTwitter($session);
+	
+	my ($userInfo, $statuses, $following, $followers);
+	eval{
+		$userInfo = $nt->show_user($twitiUser);
+		$statuses = $nt->friends_timeline({ my $since_id => my $high_water, count=>500 });
+		$following = $nt->friends;
+		$followers = $nt->followers;
+	};
+	
+
+	my @newStatuses;
+	foreach $status (@$statuses)
+	{
+		if( $status =~ /$curPageTinyUrl/ )
+		{
+			push(@newStatuses, $status);
+		}
+	}
+
+	# Error handling block...put after any eval that is done on a Twitter function!
+	if( $@ )
+	{
+		if( $@->isa('Net::Twitter::Lite::Error') )
+		{  
+			my $error = checkError( $@, 1 );
+			return $error;
+		} else{  return "Some Other Error?! : $@";  }
+	}
+	
+	my ($tweets, $tableTop, $tableBottom);
+$tableTop = "
+<table cellpadding=5 cellspacing=1 border=0>
+	<tr>
+		<td valign=middle width=225>
+			<img src=\"$imgPath/twitiLogo200.png\">
+		</td>
+		<td valign=middle width=50>
+			$userInfo->{profile_image_url}
+		</td>
+		<td>
+			<a href=\"http://www.twitter.com/$twitiUser\"><b>$twitiUser</b></a> <br> <a href=\"http://www.twitter.com/$twitiUser/following\">$userInfo->{friends_count} following</a> &nbsp; <a href=\"http://www.twitter.com/$twitiUser/followers\">$userInfo->{followers_count} followers</a> &nbsp; $userInfo->{statuses_count} tweets <br>
+		</td>
+	</tr>
+</table>
+---
+<table cellpadding=5 cellspacing=0 border=0>
+	<tr>
+		<td colspan=2>
+			<font class=largeBlue>
+			<form action=\"/twiti/bin/digitweet\"><input class=\"twikiInputField\" type=\"text\" name=\"tweet\" size=\"100\" />&nbsp;<input type=\"submit\" class=\"twikiSubmit\" value=\"Tweet\" /></form>
+			</font>
+		</td>
+	</tr>";
+	
+	for my $status ( @newStatuses ) 
+	{
+	  $tweets .= "\n<tr>
+						<td align=center valign=middle width=50>
+						$status->{user}{profile_image_url}
+						</td>
+						<td valign=top>
+							<font class=tweet>
+							<a href=\"http://www.twitter.com/$status->{user}{screen_name}\"><b>$status->{user}{screen_name}</b></a> &nbsp; $status->{text} <br> 
+							</font>
+							<font class=tweetInfo>
+							$status->{created_at} from $status->{source}
+							</font>
+						</td>
+					</tr>";
+	}
+	
+$tableBottom = "
+		</td>
+	</tr>
+</table>";
+
+	return ($tableTop . $tweets . $tableBottom);
 }
 
 1;
