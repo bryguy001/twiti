@@ -67,7 +67,7 @@ sub handleTwiti
 	my $query = $session->{cgiQuery};
 	return unless ( $query );
 
-	$attr = new TWiki::Attrs($attr);
+	#$attr = new TWiki::Attrs($attr);
 
 	my $webName = $session->{webName};
 	my $topic = $session->{topicName};
