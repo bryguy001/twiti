@@ -233,7 +233,7 @@ $tableBottom = "
 	<tr>
 		<td>
 			<font class=mediumBlue>
-				<a href=\"$moreURL\">More</href> <form action=\"/twiti/bin/twitilogout\">&nbsp;<input type=\"submit\" class=\"twikiSubmit\" value=\"Logout\" /></form>
+				<a href=\"$moreURL\">More</a> <form action=\"/twiti/bin/twitilogout\">&nbsp;<input type=\"submit\" class=\"twikiSubmit\" value=\"Logout\" /></form>
 			</font>
 		</td>
 	</tr>
