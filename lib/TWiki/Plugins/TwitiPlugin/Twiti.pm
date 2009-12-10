@@ -22,7 +22,7 @@ sub checkError
 	
 	if( $errorCode == 200 ) { $error = 0; }
 	elsif( $errorCode == 400 ) { $error = "Twiti Error 400: Bad Request"; }
-	elsif( $errorCode == 401 ) { $error = "Twiti Error 401: Not Authorized"; }
+	elsif( $errorCode == 401 ) { $error = "Twiti Error 401: Not Authorized";  logout();  }
 	elsif( $errorCode == 403 ) { $error = "Twiti Error 403: Forbidden"; }
 	elsif( $errorCode == 406 ) { $error = "Twiti Error 406: Not Acceptable (Bad Search?)"; }
 	elsif( $errorCode == 500 ) { $error = "Twiti Error 500: Internal Server Error (Something Broked!)"; }
@@ -326,6 +326,94 @@ $tableBottom = "
 	return ($tableTop . $tweets . $tableBottom);
 }
 
+# twitiPageSpecific
+# Returns the HTML code for the %TWITI{thispage="1"}% tag for page-specific tweets
+sub twitiPageSpecific
+{
+        my $session = $TWiki::Plugins::SESSION;
+	my $webName = $session->{webName};
+	my $topic = $session->{topicName};
+	my $imgPath = TWiki::Func::getPubUrlPath() . "/" . TWiki::Func::getTwikiWebname() . "/TwitiPlugin";
+	
+	my $curPageTinyUrl = makeashorterlink(TWiki::Func::getViewUrl( $webName, $topic ));
+
+	my ($nt, $twitiUser) = setupNetTwitter($session);
+	
+	my ($userInfo, $statuses, $following, $followers);
+	eval{
+		$userInfo = $nt->show_user($twitiUser);
+		$statuses = $nt->friends_timeline({ my $since_id => my $high_water, count=>500 });
+		$following = $nt->friends;
+		$followers = $nt->followers;
+	};
+
+	# Error handling block...put after any eval that is done on a Twitter function!
+	if( $@ )
+	{
+		if( $@->isa('Net::Twitter::Lite::Error') )
+		{  
+			my $error = checkError( $@, 1 );
+			return $error;
+		} else{  return "Some Other Error?! : $@";  }
+	}
+
+	my @newStatuses;
+	foreach my $status (@$statuses)
+	{
+		if( $status->{text} =~ m/($curPageTinyUrl)/ )
+		{
+			push(@newStatuses, $status);
+		}
+	}
+
+	if(@newStatuses == 0)
+	{  return "<font size=4>No page specific Tweets!</font>";  }
+	
+	my ($tweets, $tableTop, $tableBottom);
+$tableTop = "
+---
+<table cellpadding=5 cellspacing=1 border=0>
+	<tr>
+		<td valign=middle width=225>
+			<img src=\"$imgPath/twitiLogo200.png\">
+		</td>
+		<td valign=middle width=50>
+			$userInfo->{profile_image_url}
+		</td>
+		<td>
+			<a href=\"http://www.twitter.com/$twitiUser\"><b>$twitiUser</b></a> <br> <a href=\"http://www.twitter.com/$twitiUser/following\">$userInfo->{friends_count} following</a> &nbsp; <a href=\"http://www.twitter.com/$twitiUser/followers\">$userInfo->{followers_count} followers</a> &nbsp; $userInfo->{statuses_count} tweets <br>
+		</td>
+	</tr>
+</table>
+---
+<table cellpadding=5 cellspacing=0 border=0>";
+	
+	foreach my $status ( @newStatuses ) 
+	{
+	  $tweets .= "\n<tr>
+						<td align=center valign=middle width=50>
+						$status->{user}{profile_image_url}
+						</td>
+						<td valign=top>
+							<font class=tweet>
+							<a href=\"http://www.twitter.com/$status->{user}{screen_name}\"><b>$status->{user}{screen_name}</b></a> &nbsp; $status->{text} <br> 
+							</font>
+							<font class=tweetInfo>
+							$status->{created_at} from $status->{source}
+							</font>
+						</td>
+					</tr>";
+	}
+	
+$tableBottom = "
+		</td>
+	</tr>
+</table>
+---";
+
+	return ($tableTop . $tweets . $tableBottom);
+}
+
 # tweet
 # Called when a user presses the Tweet button on the main page or More page
 # Sends the Twitter update...will divert to an OopsException page if an error occurs in the Twitter update
@@ -428,98 +516,11 @@ sub logout
 {
     my $session = $TWiki::Plugins::SESSION;
     my $user = $session->{user};
+	
     my $filename = TWiki::Func::getWorkArea('TwitiPlugin') . "/" . $user . ".twiti";
-    my $storestring = $_[1] . "," . $_[2];
+	
     TWiki::Func::saveFile($filename, "");
     $session->redirect( TWiki::Func::getViewUrl( $session->{webName}, $session->{topicName} ) );
-}
-
-# twitiPageSpecific
-# Returns the HTML code for the %TWITI{thispage="1"}% tag for page-specific tweets
-sub twitiPageSpecific
-{
-        my $session = $TWiki::Plugins::SESSION;
-	my $webName = $session->{webName};
-	my $topic = $session->{topicName};
-	my $imgPath = TWiki::Func::getPubUrlPath() . "/" . TWiki::Func::getTwikiWebname() . "/TwitiPlugin";
-	
-	my $curPageTinyUrl = makeashorterlink(TWiki::Func::getViewUrl( $webName, $topic ));
-
-	my ($nt, $twitiUser) = setupNetTwitter($session);
-	
-	my ($userInfo, $statuses, $following, $followers);
-	eval{
-		$userInfo = $nt->show_user($twitiUser);
-		$statuses = $nt->friends_timeline({ my $since_id => my $high_water, count=>500 });
-		$following = $nt->friends;
-		$followers = $nt->followers;
-	};
-
-	# Error handling block...put after any eval that is done on a Twitter function!
-	if( $@ )
-	{
-		if( $@->isa('Net::Twitter::Lite::Error') )
-		{  
-			my $error = checkError( $@, 1 );
-			return $error;
-		} else{  return "Some Other Error?! : $@";  }
-	}
-
-	my @newStatuses;
-	foreach my $status (@$statuses)
-	{
-		if( $status->{text} =~ m/($curPageTinyUrl)/ )
-		{
-			push(@newStatuses, $status);
-		}
-	}
-
-	if(@newStatuses == 0)
-	{  return "<font size=4>No page specific Tweets!</font>";  }
-	
-	my ($tweets, $tableTop, $tableBottom);
-$tableTop = "
----
-<table cellpadding=5 cellspacing=1 border=0>
-	<tr>
-		<td valign=middle width=225>
-			<img src=\"$imgPath/twitiLogo200.png\">
-		</td>
-		<td valign=middle width=50>
-			$userInfo->{profile_image_url}
-		</td>
-		<td>
-			<a href=\"http://www.twitter.com/$twitiUser\"><b>$twitiUser</b></a> <br> <a href=\"http://www.twitter.com/$twitiUser/following\">$userInfo->{friends_count} following</a> &nbsp; <a href=\"http://www.twitter.com/$twitiUser/followers\">$userInfo->{followers_count} followers</a> &nbsp; $userInfo->{statuses_count} tweets <br>
-		</td>
-	</tr>
-</table>
----
-<table cellpadding=5 cellspacing=0 border=0>";
-	
-	foreach my $status ( @newStatuses ) 
-	{
-	  $tweets .= "\n<tr>
-						<td align=center valign=middle width=50>
-						$status->{user}{profile_image_url}
-						</td>
-						<td valign=top>
-							<font class=tweet>
-							<a href=\"http://www.twitter.com/$status->{user}{screen_name}\"><b>$status->{user}{screen_name}</b></a> &nbsp; $status->{text} <br> 
-							</font>
-							<font class=tweetInfo>
-							$status->{created_at} from $status->{source}
-							</font>
-						</td>
-					</tr>";
-	}
-	
-$tableBottom = "
-		</td>
-	</tr>
-</table>
----";
-
-	return ($tableTop . $tweets . $tableBottom);
 }
 
 1;
