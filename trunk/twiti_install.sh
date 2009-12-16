@@ -17,8 +17,7 @@ else
 fi
 
 echo "Checking out source"
-svn checkout https://twiti.googlecode.com/svn/trunk/ . --force
-svn revert lib/TWiki/UI/Save.pm
-svn revert templates/edit.pattern.tmpl
+wget -P twiti.tar.gz 
+tar xzvf twiti.tar.gz
 
 echo "Done! Don't forget to go to bin/configure to setup the Retweet Account"
